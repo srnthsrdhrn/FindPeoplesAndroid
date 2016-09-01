@@ -24,13 +24,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Username"
-        android:id="@+id/username" />
+        android:id="@+id/rusername" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
         android:inputType="textPassword"
-        android:id="@+id/password"/>
+        android:id="@+id/rpassword"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

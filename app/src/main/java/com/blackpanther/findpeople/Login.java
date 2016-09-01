@@ -1,8 +1,7 @@
 package com.blackpanther.findpeople;
 
+import android.content.Intent;
 import android.os.AsyncTask;
-import android.renderscript.ScriptGroup;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,11 +22,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class Login extends AppCompatActivity {
     Button Login,Register,Forgot_Password;
@@ -41,18 +35,20 @@ public class Login extends AppCompatActivity {
         Login = (Button) findViewById(R.id.login);
         Register = (Button) findViewById(R.id.register);
         Forgot_Password = (Button) findViewById(R.id.forgot_password);
-        usernameet = (EditText) findViewById(R.id.username);
-        passwordet = (EditText) findViewById(R.id.password);
+        usernameet = (EditText) findViewById(R.id.rusername);
+        passwordet = (EditText) findViewById(R.id.rpassword);
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new connect().execute(LOGIN_URL);
+                new connect().execute(LOGIN_URL,usernameet.getText().toString(),passwordet.getText().toString());
             }
         });
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new connect().execute(REGISTER_URL);
+                Intent myIntent=new Intent(getApplicationContext(),Register.class);
+                startActivity(myIntent);
+
             }
         });
         Forgot_Password.setOnClickListener(new View.OnClickListener() {
@@ -79,25 +75,12 @@ public class Login extends AppCompatActivity {
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                writer.write(getQuery());
+                writer.write(getQuery(strings[1],strings[2]));
                 writer.flush();
                 writer.close();
                 os.close();
                 conn.connect();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            if(conn.getResponseCode()==HttpURLConnection.HTTP_OK){
-                                Toast.makeText(Login.this,"Connected",Toast.LENGTH_LONG).show();
-                            }else{
-                                Toast.makeText(Login.this,conn.getResponseCode(),Toast.LENGTH_LONG).show();
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+
 
                 InputStream inputStream = new BufferedInputStream(conn.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -138,7 +121,7 @@ public class Login extends AppCompatActivity {
             Toast.makeText(Login.this,s,Toast.LENGTH_LONG).show();
             super.onPostExecute(s);
         }
-        private String getQuery() throws UnsupportedEncodingException
+        private String getQuery(String username,String password) throws UnsupportedEncodingException
         {
             String result = "&" +
                     URLEncoder.encode("username", "UTF-8") +
