@@ -1,5 +1,6 @@
 package com.blackpanther.findpeople;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,7 +23,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 public class Register extends AppCompatActivity {
-
+    String username, email,password,repassword;
+    String REGISTER_URL="http://10.1.124.67:8080/register/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,14 +34,15 @@ public class Register extends AppCompatActivity {
         final EditText passwordet=(EditText)findViewById(R.id.rpassword);
         final EditText repasswordet=(EditText)findViewById(R.id.rpasswordrep);
         Button register=(Button)findViewById(R.id.rregister);
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new RegisterThread().execute(
-                        usernameet.getText().toString(),
-                        emailet.getText().toString(),
-                        passwordet.getText().toString()
-                );
+                username= usernameet.getText().toString();
+                email= emailet.getText().toString();
+                password= passwordet.getText().toString();
+                repassword= repasswordet.getText().toString();
+                new RegisterThread().execute(REGISTER_URL,username,password,email,repassword);
             }
         });
 
@@ -47,39 +50,56 @@ public class Register extends AppCompatActivity {
 
 
     }
-    class RegisterThread extends AsyncTask<String,Void,Integer>{
+    class RegisterThread extends AsyncTask<String,Void,String>{
+        ProgressDialog progressDialog;
+        @Override
+        protected void onPreExecute() {
+            progressDialog= new ProgressDialog(Register.this);
+            progressDialog.setTitle("Connecting");
+            progressDialog.setMessage("Please Wait");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            super.onPreExecute();
+        }
 
         @Override
-        protected Integer doInBackground(String... strings) {
+        protected void onPostExecute(String string) {
+            super.onPostExecute(string);
+            progressDialog.dismiss();
+            Toast.makeText(Register.this,string,Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
             StringBuilder s=new StringBuilder();
             URL url=null;
             try {
 
                 s.append(URLEncoder.encode("username", "UTF-8"));
                 s.append("=");
-                s.append(URLEncoder.encode(strings[0],"UTF-8"));
+                s.append(URLEncoder.encode(strings[1],"UTF-8"));
                 s.append("&");
                 s.append(URLEncoder.encode("email", "UTF-8"));
                 s.append("=");
-                s.append(URLEncoder.encode(strings[1],"UTF-8"));
+                s.append(URLEncoder.encode(strings[2],"UTF-8"));
                 s.append("&");
                 s.append(URLEncoder.encode("password", "UTF-8"));
                 s.append("=");
-                s.append(URLEncoder.encode(strings[2],"UTF-8"));
-                url=new URL("http://10.1.124.67:8080/register/");
+                s.append(URLEncoder.encode(strings[3],"UTF-8"));
+                url=new URL(strings[0]);
                 HttpURLConnection conn=(HttpURLConnection)url.openConnection();
                 conn.setRequestMethod("POST");
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 conn.connect();
 
-                OutputStream op=(OutputStream)conn.getOutputStream();
+                OutputStream op=conn.getOutputStream();
                 BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(op,"UTF-8"));
                 writer.write(s.toString());
                 writer.flush();
                 writer.close();
                 conn.connect();
-                InputStream inputStream = (InputStream)conn.getInputStream();
+                InputStream inputStream = conn.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line="";
                 String data=null;
@@ -102,7 +122,7 @@ public class Register extends AppCompatActivity {
 
 
             }
-            return 0;
+            return s.toString();
 
 
         }

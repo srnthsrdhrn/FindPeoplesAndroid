@@ -31,7 +31,7 @@
         android:layout_alignRight="@+id/rusername"
         android:layout_alignEnd="@+id/rusername"
         android:width="250dp"
-        android:hint="email"/>
+        android:hint="Email ID"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
         android:width="250dp"
         android:layout_below="@+id/remail"
         android:layout_centerHorizontal="true"
-        android:hint="password"/>
+        android:hint="New Password"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
         android:layout_below="@+id/rpassword"
         android:layout_centerHorizontal="true"
         android:width="250dp"
-        android:hint="re-enter password"/>
+        android:hint="Confirm password"/>
 
     <Button
         android:layout_width="wrap_content"
