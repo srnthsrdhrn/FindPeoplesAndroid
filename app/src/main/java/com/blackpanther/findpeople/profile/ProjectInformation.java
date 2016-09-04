@@ -1,9 +1,9 @@
-package com.blackpanther.findpeople;
+package com.blackpanther.findpeople.profile;
 
 /**
  * Created by ubuntu on 3/9/16.
  */
-public class WallRecyclerViewContent {
+public class ProjectInformation {
     String project_title,project_description,project_category,project_full_story;
     int likes;
     WallComments comments;

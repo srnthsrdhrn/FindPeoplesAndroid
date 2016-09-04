@@ -3,6 +3,7 @@ package com.blackpanther.findpeople;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -71,7 +72,14 @@ public class Login extends AppCompatActivity {
             Login.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new LoginConnect().execute(LOGIN_URL, usernameet.getText().toString(), passwordet.getText().toString());
+                    SharedPreferences mySharedPreferences=getSharedPreferences("login_details",Context.MODE_PRIVATE);
+                    SharedPreferences.Editor myEditor=mySharedPreferences.edit();
+                    myEditor.putBoolean("flag",true);
+                    myEditor.putString("username",usernameet.getText().toString());
+                    myEditor.putString("password",passwordet.getText().toString());
+                    myEditor.commit();
+                    Intent helperIntent=new Intent(getApplicationContext(),HelperActivity.class);
+                    startActivity(helperIntent);
 
                 }
             });
@@ -92,95 +100,7 @@ public class Login extends AppCompatActivity {
             });
         }
     }
-    private class LoginConnect extends AsyncTask<String,Void,String>{
-    ProgressDialog progressDialog;
-        @Override
-        protected String doInBackground(String... strings) {
-            String data="";
-            try {
-                URL url = new URL(strings[0]);
-                final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
 
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(getQuery(strings[1],strings[2]));
-                writer.flush();
-                writer.close();
-                os.close();
-                conn.connect();
-
-
-                InputStream inputStream = new BufferedInputStream(conn.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                String line="";
-                while((line=reader.readLine())!=null){
-                    data+=line;
-                }
-                inputStream.close();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(Login.this," URL error Exception",Toast.LENGTH_LONG).show();
-                    }
-                });
-            } catch( IOException e){
-                e.printStackTrace();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(Login.this,"IOException",Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-            return data;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = new ProgressDialog(Login.this);
-            progressDialog.setTitle("Connecting");
-            progressDialog.setMessage("Please Wait");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            progressDialog.dismiss();
-            Toast.makeText(Login.this,s,Toast.LENGTH_LONG).show();
-            super.onPostExecute(s);
-        }
-        private String getQuery(String username,String password) throws UnsupportedEncodingException
-        {
-            String result = "&" +
-                    URLEncoder.encode("username", "UTF-8") +
-                    "=" +
-                    URLEncoder.encode(username, "UTF-8") +
-                    "&" +
-                    URLEncoder.encode("password", "UTF-8") +
-                    "=" +
-                    URLEncoder.encode(password, "UTF-8");
-
-            return result;
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-            if(progressDialog!=null)
-            progressDialog.dismiss();
-        }
-    }
 
 
 }

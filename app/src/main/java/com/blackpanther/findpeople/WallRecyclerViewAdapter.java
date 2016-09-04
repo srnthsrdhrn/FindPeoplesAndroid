@@ -7,13 +7,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.blackpanther.findpeople.profile.ProjectInformation;
+
 import java.util.List;
 
 /**
  * Created by ubuntu on 3/9/16.
  */
 public class WallRecyclerViewAdapter extends RecyclerView.Adapter<WallRecyclerViewAdapter.WallRecyclerViewHolder> {
-    private List<WallRecyclerViewContent> content_list;
+    private List<ProjectInformation> content_list;
 
     public class WallRecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView project_title,project_description,project_category;
@@ -30,7 +32,7 @@ public class WallRecyclerViewAdapter extends RecyclerView.Adapter<WallRecyclerVi
         }
     }
 
-    public  WallRecyclerViewAdapter(List<WallRecyclerViewContent> list){
+    public  WallRecyclerViewAdapter(List<ProjectInformation> list){
         content_list=list;
     }
 
@@ -42,7 +44,7 @@ public class WallRecyclerViewAdapter extends RecyclerView.Adapter<WallRecyclerVi
 
     @Override
     public void onBindViewHolder(WallRecyclerViewHolder holder, int position) {
-        final WallRecyclerViewContent content = content_list.get(position);
+        final ProjectInformation content = content_list.get(position);
         holder.project_title.setText(content.getProject_title());
         holder.project_category.setText(content.getProject_category());
         holder.project_description.setText(content.getProject_description());

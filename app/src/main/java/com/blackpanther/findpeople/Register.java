@@ -42,7 +42,7 @@ public class Register extends AppCompatActivity {
                 email= emailet.getText().toString();
                 password= passwordet.getText().toString();
                 repassword= repasswordet.getText().toString();
-                new RegisterThread().execute(REGISTER_URL,username,password,email,repassword);
+                new RegisterThread().execute(REGISTER_URL,username,email,password,repassword);
             }
         });
 
