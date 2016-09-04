@@ -6,4 +6,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="project_description_demo">The word project comes from the Latin word projectum from the Latin verb proicere, "before an action" which in turn comes from pro-, which denotes precedence, something that comes before something else in time (paralleling the Greek πρό) and iacere, "to do". The word "project" thus actually originally meant "before an action".
+When the English language initially adopted the word, it referred to a plan of something, not to the act of actually carrying this plan out. Something performed in accordance with a project became known as an "object".Every project has certain phases of development.
+    </string>
 </resources>
