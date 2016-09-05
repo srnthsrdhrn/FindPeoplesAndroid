@@ -126,6 +126,7 @@ public class HelperActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             progressDialog.dismiss();
+            connected=true;
             Map<String,List<String>> myMap=conn.getHeaderFields();
             List<String> myList=myMap.get("Set-Cookie");
             final String[] session=myList.get(0).split(";");
@@ -140,19 +141,13 @@ public class HelperActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),session[0],Toast.LENGTH_LONG).show();
                 }
             });
-
-
-
-
-            SharedPreferences mySharedPreferences=getSharedPreferences("login_details",Context.MODE_PRIVATE);
-            SharedPreferences.Editor myEditor=mySharedPreferences.edit();
-            //myEditor.putString("")
             Intent homeIntent=new Intent(getApplicationContext(),Homepage.class);
             startActivity(homeIntent);
         }
         private String getQuery(String username,String password) throws UnsupportedEncodingException
         {
-            String result = "&" +
+
+            return "&" +
                     URLEncoder.encode("username", "UTF-8") +
                     "=" +
                     URLEncoder.encode(username, "UTF-8") +
@@ -160,8 +155,6 @@ public class HelperActivity extends AppCompatActivity {
                     URLEncoder.encode("password", "UTF-8") +
                     "=" +
                     URLEncoder.encode(password, "UTF-8");
-
-            return result;
         }
 
         @Override

@@ -24,6 +24,8 @@ import com.blackpanther.findpeople.profile.NamePic;
 import com.blackpanther.findpeople.profile.Profile;
 import com.blackpanther.findpeople.profile.Skills;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -39,12 +41,13 @@ import java.util.List;
 /**
  * Created by ubuntu on 2/9/16.
  */
-public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class WallFragment extends Fragment {
     private List<Object> content_list = new ArrayList<>();
     private RecyclerView recyclerView;
     private WallRecyclerViewAdapter adapter;
     private String WALL_URL="http://10.1.124.67:8080/homepage/wall";
     private SwipeRefreshLayout swipeRefreshLayout;
+    SwipeRefreshLayout.OnRefreshListener onRefreshListener;
     public WallFragment(){
 
     }
@@ -52,6 +55,12 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.wall_layout,container,false);
+        onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new WallConnect().execute();
+            }
+        };
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swiprerefreshlayout);
         adapter = new WallRecyclerViewAdapter(content_list);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
@@ -110,7 +119,14 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         /*
         * Dummy Data for the Wall
         * */
-        new WallConnect().execute();
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                onRefreshListener.onRefresh();
+            }
+        });
+
         return v;
 
     }
@@ -119,14 +135,9 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         content_list.add(content);
         adapter.notifyDataSetChanged();
     }
-    @Override
-    public void onRefresh() {
 
-
-    }
 
     private class WallConnect extends AsyncTask<String,Void,String> {
-        ProgressDialog progressDialog;
         @Override
         protected String doInBackground(String... strings) {
             String data = "";
@@ -149,51 +160,39 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     InputStream ip = conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new
                             InputStreamReader(ip));
-                    final String temp = reader.readLine();
+                    final String response = reader.readLine();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
-                            Toast.makeText(getContext(), temp, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
                         }
                     });
+                    JSONObject verify = new JSONObject(response);
+                    String respond = verify.getString("ok");
+                    boolean bool = Boolean.parseBoolean(respond);
                     reader.close();
+                    if(bool){
+                        return data;
+                    }else{
+                        Log.d("Response","Failed to get Data, Response is False");
+                        return "Data failed to receive";
+                    }
+
                 } catch (Exception e) {
-                    Log.w("abc", e);
+                    Log.w("Exception in internet", e);
 
 
                 }
-            return null;
+            return data;
         }
-        @Override
-        protected void onPreExecute() {
 
-            super.onPreExecute();
-        }
 
         @Override
         protected void onPostExecute(String s) {
-
-            Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
+            swipeRefreshLayout.setRefreshing(false);
+            Log.d("On Post Execute", s);
             super.onPostExecute(s);
-        }
-        private String getQuery(String username,String password) throws UnsupportedEncodingException
-        {
-            String result = "&" +
-                    URLEncoder.encode("username", "UTF-8") +
-                    "=" +
-                    URLEncoder.encode(username, "UTF-8") +
-                    "&" +
-                    URLEncoder.encode("password", "UTF-8") +
-                    "=" +
-                    URLEncoder.encode(password, "UTF-8");
-
-            return result;
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
         }
     }
 
