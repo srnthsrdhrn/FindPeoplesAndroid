@@ -11,14 +11,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.blackpanther.findpeople.Wall.WallProjectContent;
 import com.blackpanther.findpeople.profile.Following;
 import com.blackpanther.findpeople.profile.NamePic;
-import com.blackpanther.findpeople.profile.ProjectInformation;
 import com.blackpanther.findpeople.profile.Skills;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by ubuntu on 5/9/16.
@@ -51,7 +50,7 @@ public class ProfileRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 holder=new ProfileFollowingRecyclerViewHolder(myView);
                 break;
             default:
-                myView=myLayoutInflater.inflate(R.layout.wall_recycler_view_layout,parent,false);
+                myView=myLayoutInflater.inflate(R.layout.wall_project_layout,parent,false);
                 holder=new ProfileProjectRecyclerViewHolder(myView);
 
 
@@ -115,31 +114,31 @@ public class ProfileRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             {
                 ProfileNameDpRecyclerViewHolder namehold=(ProfileNameDpRecyclerViewHolder)holder;
                 namehold.dp.setImageResource(R.drawable.common_google_signin_btn_icon_dark);
-                namehold.name.setText(((NamePic)baseList.get(0)).name);
+                namehold.name.setText(((NamePic)baseList.get(0)).getName());
 
             }
             break;
             case 1:
             {
                 ProfileSkillsRecyclerViewHolder hold=(ProfileSkillsRecyclerViewHolder)holder;
-                ArrayAdapter<String> myAdapter=new ArrayAdapter<String>(myContext, R.layout.text, R.id.text,((Skills)baseList.get(1)).myList);
+                ArrayAdapter<String> myAdapter=new ArrayAdapter<String>(myContext, R.layout.text, R.id.text,((Skills)baseList.get(1)).getMyList());
                 hold.skills.setAdapter(myAdapter);
                 myAdapter.notifyDataSetChanged();
             }
             case 2:
             {
                 ProfileFollowingRecyclerViewHolder followhold=(ProfileFollowingRecyclerViewHolder)holder;
-                ArrayAdapter<String> myAdapter=new ArrayAdapter<String>(myContext,R.layout.text,R.id.text,((Following)baseList.get(2)).myList);
+                ArrayAdapter<String> myAdapter=new ArrayAdapter<String>(myContext,R.layout.text,R.id.text,((Following)baseList.get(2)).getMyList());
                 followhold.following.setAdapter(myAdapter);
                 myAdapter.notifyDataSetChanged();
             }
             default:
             {
                 ProfileProjectRecyclerViewHolder hold=(ProfileProjectRecyclerViewHolder)holder;
-                final ProjectInformation content = (ProjectInformation) baseList.get(position);
+                final WallProjectContent content = (WallProjectContent) baseList.get(position);
                 hold.project_title.setText(content.getProject_title());
                 hold.project_category.setText(content.getProject_category());
-                hold.project_description.setText(content.getProject_description());
+                hold.project_description.setText(content.getProject_brief());
             }
         }
 
