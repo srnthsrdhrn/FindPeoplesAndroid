@@ -7,9 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -28,7 +26,7 @@ import java.util.Map;
 
 public class HelperActivity extends AppCompatActivity {
     String LOGIN_URL="http://10.1.124.67:8080/login/";
-
+    public static boolean connected=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +129,11 @@ public class HelperActivity extends AppCompatActivity {
             Map<String,List<String>> myMap=conn.getHeaderFields();
             List<String> myList=myMap.get("Set-Cookie");
             final String[] session=myList.get(0).split(";");
+            String[] temp = session[0].split("=");
+            SharedPreferences preferences = getSharedPreferences("login_details",MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("sessionid",temp[1]);
+            editor.apply();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
