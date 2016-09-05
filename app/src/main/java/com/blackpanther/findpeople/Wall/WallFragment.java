@@ -3,7 +3,6 @@ package com.blackpanther.findpeople.Wall;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,29 +18,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.CookieHandler;
-import java.net.CookieManager;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.blackpanther.findpeople.R;
 import com.blackpanther.findpeople.profile.Following;
 import com.blackpanther.findpeople.profile.NamePic;
 import com.blackpanther.findpeople.profile.Profile;
 import com.blackpanther.findpeople.profile.Skills;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ubuntu on 2/9/16.
@@ -51,6 +44,7 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private RecyclerView recyclerView;
     private WallRecyclerViewAdapter adapter;
     private String WALL_URL="http://10.1.124.67:8080/homepage/wall";
+    private SwipeRefreshLayout swipeRefreshLayout;
     public WallFragment(){
 
     }
@@ -58,6 +52,7 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.wall_layout,container,false);
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swiprerefreshlayout);
         adapter = new WallRecyclerViewAdapter(content_list);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -80,7 +75,7 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         List<Profile> profiles = new ArrayList<>();
         profiles.add(srinath);
         List<Likes> likes = new ArrayList<>();
-        Likes likes1 = new Likes(profiles);
+        Likes likes1 = new Likes(srinath);
         likes.add(likes1);
         Comments comments1 = new Comments(srinath,"Superb",likes);
         List<Comments> comments = new ArrayList<>();
@@ -201,4 +196,5 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             super.onCancelled();
         }
     }
+
 }
