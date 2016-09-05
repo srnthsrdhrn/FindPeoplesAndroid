@@ -1,5 +1,7 @@
 package com.blackpanther.findpeople;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +20,15 @@ import com.blackpanther.findpeople.profile.ProjectInformation;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ubuntu on 2/9/16.
@@ -48,10 +56,21 @@ public class WallFragment extends Fragment {
             @Override
             protected Void doInBackground(String... strings) {
                 try{
-                    URL url=new URL("http://10.1.124.67:8080/homepage/projects");
+                    CookieHandler.setDefault(new CookieManager());
+                    URL url=new URL("http://10.1.124.67:8080/homepage/projects/");
                     HttpURLConnection conn= (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
+                    SharedPreferences myshare=getActivity().getSharedPreferences("login_details",Context.MODE_PRIVATE);
+                    String cookie=myshare.getString("sessionid","asdsa");
+                    Log.w("cba",cookie);
+                    //Log.w("cba","~fsdfsfdfsd");
+                    conn.setRequestProperty("Cookie", "sessionid="
+                            + URLEncoder.encode(cookie, "UTF-8"));
                     conn.connect();
+
+
+
+
                     InputStream ip=conn.getInputStream();
                     BufferedReader reader=new BufferedReader(new InputStreamReader(ip));
                     final String temp=reader.readLine();
@@ -63,6 +82,8 @@ public class WallFragment extends Fragment {
                     });
                     reader.close();
                 }catch (Exception e){
+                    Log.w("abc",e);
+
 
                 }
                 return null;
