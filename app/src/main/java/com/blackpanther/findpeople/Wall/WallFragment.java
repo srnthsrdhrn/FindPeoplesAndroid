@@ -65,7 +65,8 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         List<String> names= new ArrayList<>();
         names.add("Srinath");
         names.add("Divya");
-        names.add("Kishore");
+        names.add("Prithvi");
+        names.add("Sherly");
         List<String> skills_list = new ArrayList<>();
         skills_list.add("Android Programming");
         skills_list.add("PHP");

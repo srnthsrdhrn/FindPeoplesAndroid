@@ -16,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.blackpanther.findpeople.Trending.TrendingFragment;
 import com.blackpanther.findpeople.Wall.WallFragment;
 
 public class Homepage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
