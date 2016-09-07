@@ -38,6 +38,7 @@ public class HelperActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"dasda",Toast.LENGTH_LONG).show();
         }
         else{
+
             new LoginConnect().execute(LOGIN_URL,mySharedPreferences.getString("username","zzz"), mySharedPreferences.getString("password","zzzz"));
         }
 
@@ -126,27 +127,34 @@ public class HelperActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             progressDialog.dismiss();
+
             Map<String,List<String>> myMap=conn.getHeaderFields();
             List<String> myList=myMap.get("Set-Cookie");
             final String[] session=myList.get(0).split(";");
+<<<<<<< HEAD
+            final String[] sessionid=session[0].split("=");
+
+
+            Log.w("cba",sessionid[1]);
+=======
             String[] temp = session[0].split("=");
             SharedPreferences preferences = getSharedPreferences("login_details",MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("sessionid",temp[1]);
             editor.apply();
+>>>>>>> f132ee49b6387e44004c356949c3577c03f101b6
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(),session[0],Toast.LENGTH_LONG).show();
+                    SharedPreferences mySharedPreferences=getSharedPreferences("login_details",Context.MODE_PRIVATE);
+                    SharedPreferences.Editor myEditor=mySharedPreferences.edit();
+                    myEditor.putString("sessionid",sessionid[1]);
+                    myEditor.apply();
+                    Log.w("cba",mySharedPreferences.getString("sessionid","asdsa"));
                 }
             });
 
 
-
-
-            SharedPreferences mySharedPreferences=getSharedPreferences("login_details",Context.MODE_PRIVATE);
-            SharedPreferences.Editor myEditor=mySharedPreferences.edit();
-            //myEditor.putString("")
             Intent homeIntent=new Intent(getApplicationContext(),Homepage.class);
             startActivity(homeIntent);
         }
