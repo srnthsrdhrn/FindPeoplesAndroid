@@ -1,4 +1,4 @@
-package com.blackpanther.findpeople;
+package com.blackpanther.findpeople.ProfilePage;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,16 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * Created by ubuntu on 2/9/16.
- */
-public class CategoriesFragment extends Fragment{
-    public CategoriesFragment(){
+import com.blackpanther.findpeople.R;
 
+/**
+ * Created by ubuntu on 7/9/16.
+ */
+public class ProfilePageFragment extends Fragment {
+    public ProfilePageFragment() {
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.categories_layout,container,false);
+        View v = inflater.inflate(R.layout.profile_page_fragment_layout,container,false);
+        return v;
     }
 }

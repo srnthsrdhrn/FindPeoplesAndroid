@@ -19,7 +19,7 @@
             android:name=".Homepage"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".HelperActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +28,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ProfilePage"
-            android:label="@string/title_activity_profile"
+            android:name=".ProfilePage.ProfilePage"
+            android:label="@string/title_activity_profile_page"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

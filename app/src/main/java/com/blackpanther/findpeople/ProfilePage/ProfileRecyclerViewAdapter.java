@@ -1,4 +1,4 @@
-package com.blackpanther.findpeople;
+package com.blackpanther.findpeople.ProfilePage;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.blackpanther.findpeople.R;
 import com.blackpanther.findpeople.Wall.WallProjectContent;
 import com.blackpanther.findpeople.profile.Following;
 import com.blackpanther.findpeople.profile.NamePic;
