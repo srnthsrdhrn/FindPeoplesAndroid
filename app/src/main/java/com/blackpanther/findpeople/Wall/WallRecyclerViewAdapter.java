@@ -90,8 +90,19 @@ public class WallRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 projectViewHolder.project_title.setText(wallProjectContent.getProject_title());
                 projectViewHolder.project_category.setText(wallProjectContent.getProject_category());
                 projectViewHolder.project_brief.setText(wallProjectContent.getProject_brief());
-                projectViewHolder.likes.setText(wallProjectContent.getLikes().size()+" likes");
-                projectViewHolder.comments.setText(wallProjectContent.getComments().size()+" comments");
+                int a= wallProjectContent.getLikes().size();
+                if(a>1) {
+                    projectViewHolder.likes.setText(a + " likes");
+                }else{
+                    projectViewHolder.likes.setText(a+ " like");
+                }
+                int b = wallProjectContent.getComments().size();
+                if(b>1) {
+                    projectViewHolder.comments.setText(b+ " comments");
+                }else{
+                    projectViewHolder.comments.setText(b + " comment");
+                }
+
                 break;
             case 1:
                 BroadcastViewHolder broadcastViewHolder = (BroadcastViewHolder) holder;
@@ -99,8 +110,18 @@ public class WallRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 broadcastViewHolder.broadcast_title.setText(broadcastContent.getTitle());
                 broadcastViewHolder.broadcast_category.setText(broadcastContent.getCategory());
                 broadcastViewHolder.broadcast_brief.setText(broadcastContent.getBrief());
-                broadcastViewHolder.likes.setText(broadcastContent.getLikes().size()+" likes");
-                broadcastViewHolder.comments.setText(broadcastContent.getComments().size()+" comments");
+                 a= broadcastContent.getLikes().size();
+                if(a>1) {
+                    broadcastViewHolder.likes.setText(a + " likes");
+                }else{
+                    broadcastViewHolder.likes.setText(a+ " like");
+                }
+                 b = broadcastContent.getComments().size();
+                if(b>1) {
+                    broadcastViewHolder.comments.setText(b+ " comments");
+                }else{
+                    broadcastViewHolder.comments.setText(b + " comment");
+                }
                 break;
             case 2:
                 TeamJoinViewHolder teamJoinViewHolder = (TeamJoinViewHolder) holder;
@@ -109,8 +130,18 @@ public class WallRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 teamJoinViewHolder.project_category.setText(teamJoinContent.getProject_category());
                 teamJoinViewHolder.project_brief.setText(teamJoinContent.getProject_brief());
                 teamJoinViewHolder.likes.setText(teamJoinContent.getLikes().size()+" likes");
-                teamJoinViewHolder.comments.setText(teamJoinContent.getComments().size()+" comments");
-                teamJoinViewHolder.members.setText(teamJoinContent.getMembers().size()+" members");
+                 a= teamJoinContent.getLikes().size();
+                if(a>1) {
+                    teamJoinViewHolder.likes.setText(a + " likes");
+                }else{
+                    teamJoinViewHolder.likes.setText(a+ " like");
+                }
+                 b = teamJoinContent.getComments().size();
+                if(b>1) {
+                    teamJoinViewHolder.comments.setText(b+ " comments");
+                }else{
+                    teamJoinViewHolder.comments.setText(b + " comment");
+                }
                 break;
         }
     }

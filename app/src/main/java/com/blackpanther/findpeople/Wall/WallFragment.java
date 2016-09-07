@@ -53,6 +53,7 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.wall_layout,container,false);
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swiprerefreshlayout);
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_red_light,android.R.color.holo_orange_light,android.R.color.holo_blue_bright,android.R.color.holo_purple);
         adapter = new WallRecyclerViewAdapter(content_list);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -65,7 +66,8 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         List<String> names= new ArrayList<>();
         names.add("Srinath");
         names.add("Divya");
-        names.add("Kishore");
+        names.add("Prithvi");
+        names.add("Sherly");
         List<String> skills_list = new ArrayList<>();
         skills_list.add("Android Programming");
         skills_list.add("PHP");
@@ -121,12 +123,11 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     }
     @Override
     public void onRefresh() {
-
-
+        new WallConnect().execute();
     }
 
     private class WallConnect extends AsyncTask<String,Void,String> {
-        ProgressDialog progressDialog;
+
         @Override
         protected String doInBackground(String... strings) {
             String data = "";
@@ -191,10 +192,6 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             return result;
         }
 
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-        }
     }
 
 }
