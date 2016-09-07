@@ -31,10 +31,9 @@ import java.util.List;
  * Created by ubuntu on 2/9/16.
  */
 public class TrendingFragment extends Fragment {
-    private List<Object> content_list = new ArrayList<>();
+    private List<TrendingRecyclerViewContent> content_list = new ArrayList<>();
     private RecyclerView recyclerView;
-    private WallRecyclerViewAdapter adapter;
-    private String WALL_URL="http://10.1.124.67:8080/homepage/wall";
+    private TrendingRecyclerViewAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     public TrendingFragment(){
 
@@ -42,14 +41,15 @@ public class TrendingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.wall_layout,container,false);
-        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swiprerefreshlayout);
-        adapter = new WallRecyclerViewAdapter(content_list);
+        View v = inflater.inflate(R.layout.trending_layout,container,false);
+        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swiperefreshlayout);
+        adapter = new TrendingRecyclerViewAdapter(content_list);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_green_dark,android.R.color.holo_red_dark,android.R.color.holo_blue_dark,android.R.color.holo_orange_dark);
                /*
         * Dummy Data for the Wall
         * */

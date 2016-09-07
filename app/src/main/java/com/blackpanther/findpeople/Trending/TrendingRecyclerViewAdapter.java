@@ -14,6 +14,10 @@ import java.util.List;
 public class TrendingRecyclerViewAdapter extends RecyclerView.Adapter<TrendingRecyclerViewAdapter.TrendingViewHolder> {
     private List<TrendingRecyclerViewContent> content_list;
 
+    public TrendingRecyclerViewAdapter(List<TrendingRecyclerViewContent> content_list) {
+        this.content_list = content_list;
+    }
+
     public class TrendingViewHolder extends RecyclerView.ViewHolder{
         TextView project_title, project_brief,project_category;
         TextView likes,comments;
