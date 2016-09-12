@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 public class HelperActivity extends AppCompatActivity {
-    String LOGIN_URL="http://10.1.124.67:8080/login/";
+    String LOGIN_URL="http://192.168.1.36:8000/login/";
     public static boolean connected=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +64,6 @@ public class HelperActivity extends AppCompatActivity {
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(HelperActivity.this,temp1+" "+temp2,Toast.LENGTH_LONG).show();
-                    }
-                });
                 conn.setRequestMethod("POST");
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
@@ -131,18 +126,15 @@ public class HelperActivity extends AppCompatActivity {
             Map<String,List<String>> myMap=conn.getHeaderFields();
             List<String> myList=myMap.get("Set-Cookie");
             final String[] session=myList.get(0).split(";");
-<<<<<<< HEAD
             final String[] sessionid=session[0].split("=");
 
 
             Log.w("cba",sessionid[1]);
-=======
             String[] temp = session[0].split("=");
             SharedPreferences preferences = getSharedPreferences("login_details",MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("sessionid",temp[1]);
             editor.apply();
->>>>>>> f132ee49b6387e44004c356949c3577c03f101b6
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

@@ -57,7 +57,7 @@ public class ProfilePage extends AppCompatActivity
     }
     public ArrayList<Object> getData(){
         ArrayList<Object> myObject=new ArrayList<Object>();
-        myObject.add(0,new NamePic("sabari",);
+        //myObject.add(0,new NamePic("sabari",);
         return myObject;
     }
     @Override

@@ -24,7 +24,7 @@ import java.net.URLEncoder;
 
 public class Register extends AppCompatActivity {
     String username, email,password,repassword;
-    String REGISTER_URL="http://10.1.124.67:8080/register/";
+    String REGISTER_URL="http://54.244.177.52:8000/register/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
