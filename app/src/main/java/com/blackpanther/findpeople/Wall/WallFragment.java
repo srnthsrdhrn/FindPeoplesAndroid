@@ -24,8 +24,11 @@ import com.blackpanther.findpeople.profile.NamePic;
 import com.blackpanther.findpeople.profile.Profile;
 import com.blackpanther.findpeople.profile.Skills;
 
+<<<<<<< HEAD
 import org.json.JSONArray;
 import org.json.JSONException;
+=======
+>>>>>>> e6c772c61b8cee17c2452b95ea9aac28072d0df7
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -44,11 +47,17 @@ import java.util.List;
 /**
  * Created by ubuntu on 2/9/16.
  */
+<<<<<<< HEAD
 public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private ArrayList<Object> content_list = new ArrayList<Object>();
+=======
+public class WallFragment extends Fragment {
+    private List<Object> content_list = new ArrayList<>();
+>>>>>>> e6c772c61b8cee17c2452b95ea9aac28072d0df7
     private RecyclerView recyclerView;
     private WallRecyclerViewAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    SwipeRefreshLayout.OnRefreshListener onRefreshListener;
     public WallFragment(){
 
     }
@@ -56,6 +65,12 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.wall_layout,container,false);
+        onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new WallConnect().execute();
+            }
+        };
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swiprerefreshlayout);
 
                /*
@@ -109,6 +124,7 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         /*
         * Dummy Data for the Wall
         * */
+<<<<<<< HEAD
 
         adapter = new WallRecyclerViewAdapter(content_list);
         Log.w("content","checkpoint");
@@ -118,6 +134,16 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         new WallConnect().execute();
+=======
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                onRefreshListener.onRefresh();
+            }
+        });
+
+>>>>>>> e6c772c61b8cee17c2452b95ea9aac28072d0df7
         return v;
 
     }
@@ -126,14 +152,9 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         content_list.add(content);
         adapter.notifyDataSetChanged();
     }
-    @Override
-    public void onRefresh() {
 
-
-    }
 
     private class WallConnect extends AsyncTask<String,Void,String> {
-        ProgressDialog progressDialog;
         @Override
         protected String doInBackground(String... strings) {
             String data = "";
@@ -148,49 +169,55 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     conn.setRequestProperty("Cookie", "sessionid=" + URLEncoder.encode(cookie, "UTF-8"));
                     conn.connect();
                     InputStream ip = conn.getInputStream();
+<<<<<<< HEAD
                     BufferedReader reader = new BufferedReader(new InputStreamReader(ip));
                     final String temp = reader.readLine();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             JSONtoList(temp);
+=======
+                    BufferedReader reader = new BufferedReader(new
+                            InputStreamReader(ip));
+                    final String response = reader.readLine();
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+>>>>>>> e6c772c61b8cee17c2452b95ea9aac28072d0df7
                         }
                     });
+                    JSONObject verify = new JSONObject(response);
+                    String respond = verify.getString("ok");
+                    boolean bool = Boolean.parseBoolean(respond);
                     reader.close();
+<<<<<<< HEAD
                 }catch (Exception e) {
                     Log.w("abc", e);
-                }
-            return null;
-        }
-        @Override
-        protected void onPreExecute() {
+=======
+                    if(bool){
+                        return data;
+                    }else{
+                        Log.d("Response","Failed to get Data, Response is False");
+                        return "Data failed to receive";
+                    }
 
-            super.onPreExecute();
+                } catch (Exception e) {
+                    Log.w("Exception in internet", e);
+
+
+>>>>>>> e6c772c61b8cee17c2452b95ea9aac28072d0df7
+                }
+            return data;
         }
+
 
         @Override
         protected void onPostExecute(String s) {
-
-            Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
+            swipeRefreshLayout.setRefreshing(false);
+            Log.d("On Post Execute", s);
             super.onPostExecute(s);
-        }
-        private String getQuery(String username,String password) throws UnsupportedEncodingException
-        {
-            String result = "&" +
-                    URLEncoder.encode("username", "UTF-8") +
-                    "=" +
-                    URLEncoder.encode(username, "UTF-8") +
-                    "&" +
-                    URLEncoder.encode("password", "UTF-8") +
-                    "=" +
-                    URLEncoder.encode(password, "UTF-8");
-
-            return result;
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
         }
     }
 
