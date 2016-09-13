@@ -139,7 +139,7 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             String data = "";
                 try {
                     CookieHandler.setDefault(new CookieManager());
-                    URL url = new URL("http://192.168.1.36:8000/following/post/0");
+                    URL url = new URL("http://54.244.177.52:8000/following/post/0");
                     HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                     conn.setRequestMethod("GET");
                     SharedPreferences myshare = getActivity().getSharedPreferences("login_details", Context.MODE_PRIVATE);

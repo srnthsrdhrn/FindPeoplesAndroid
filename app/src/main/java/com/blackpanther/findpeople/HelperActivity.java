@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 public class HelperActivity extends AppCompatActivity {
-    String LOGIN_URL="http://192.168.1.36:8000/login/";
+    String LOGIN_URL="http://54.244.177.52:8000/login/";
     public static boolean connected=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
