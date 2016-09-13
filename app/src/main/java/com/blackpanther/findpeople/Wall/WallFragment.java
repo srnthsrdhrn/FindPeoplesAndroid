@@ -24,11 +24,9 @@ import com.blackpanther.findpeople.profile.NamePic;
 import com.blackpanther.findpeople.profile.Profile;
 import com.blackpanther.findpeople.profile.Skills;
 
-<<<<<<< HEAD
 import org.json.JSONArray;
 import org.json.JSONException;
-=======
->>>>>>> e6c772c61b8cee17c2452b95ea9aac28072d0df7
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -47,13 +45,8 @@ import java.util.List;
 /**
  * Created by ubuntu on 2/9/16.
  */
-<<<<<<< HEAD
-public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private ArrayList<Object> content_list = new ArrayList<Object>();
-=======
 public class WallFragment extends Fragment {
-    private List<Object> content_list = new ArrayList<>();
->>>>>>> e6c772c61b8cee17c2452b95ea9aac28072d0df7
+    private ArrayList<Object> content_list = new ArrayList<Object>();
     private RecyclerView recyclerView;
     private WallRecyclerViewAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -68,7 +61,7 @@ public class WallFragment extends Fragment {
         onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new WallConnect().execute();
+                //new WallConnect().execute();
             }
         };
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swiprerefreshlayout);
@@ -124,7 +117,6 @@ public class WallFragment extends Fragment {
         /*
         * Dummy Data for the Wall
         * */
-<<<<<<< HEAD
 
         adapter = new WallRecyclerViewAdapter(content_list);
         Log.w("content","checkpoint");
@@ -134,7 +126,6 @@ public class WallFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         new WallConnect().execute();
-=======
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -143,14 +134,8 @@ public class WallFragment extends Fragment {
             }
         });
 
->>>>>>> e6c772c61b8cee17c2452b95ea9aac28072d0df7
         return v;
 
-    }
-
-    private void prepareCardData(Object content) {
-        content_list.add(content);
-        adapter.notifyDataSetChanged();
     }
 
 
@@ -167,47 +152,20 @@ public class WallFragment extends Fragment {
                     String cookie = myshare.getString("sessionid", "asdsa");
                     Log.w("cba", cookie);
                     conn.setRequestProperty("Cookie", "sessionid=" + URLEncoder.encode(cookie, "UTF-8"));
+                    Log.w("session",cookie);
                     conn.connect();
                     InputStream ip = conn.getInputStream();
-<<<<<<< HEAD
                     BufferedReader reader = new BufferedReader(new InputStreamReader(ip));
                     final String temp = reader.readLine();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Log.w("hai","hai");
                             JSONtoList(temp);
-=======
-                    BufferedReader reader = new BufferedReader(new
-                            InputStreamReader(ip));
-                    final String response = reader.readLine();
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
->>>>>>> e6c772c61b8cee17c2452b95ea9aac28072d0df7
                         }
                     });
-                    JSONObject verify = new JSONObject(response);
-                    String respond = verify.getString("ok");
-                    boolean bool = Boolean.parseBoolean(respond);
-                    reader.close();
-<<<<<<< HEAD
                 }catch (Exception e) {
-                    Log.w("abc", e);
-=======
-                    if(bool){
-                        return data;
-                    }else{
-                        Log.d("Response","Failed to get Data, Response is False");
-                        return "Data failed to receive";
-                    }
-
-                } catch (Exception e) {
                     Log.w("Exception in internet", e);
-
-
->>>>>>> e6c772c61b8cee17c2452b95ea9aac28072d0df7
                 }
             return data;
         }
@@ -302,7 +260,7 @@ public class WallFragment extends Fragment {
         }
         Log.w("content",Integer.toString(count));
         int i;
-        for(i=0;i<5;i++){
+        for(i=0;i<content_list.size();i++){
             if(content_list.get(i) instanceof Project){
                 Log.w("content",((Project)(content_list.get(i))).getTitle());
             }

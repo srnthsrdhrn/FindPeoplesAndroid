@@ -122,14 +122,11 @@ public class HelperActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             progressDialog.dismiss();
-<<<<<<< HEAD
-
-=======
             connected=true;
->>>>>>> e6c772c61b8cee17c2452b95ea9aac28072d0df7
             Map<String,List<String>> myMap=conn.getHeaderFields();
             List<String> myList=myMap.get("Set-Cookie");
-            final String[] session=myList.get(0).split(";");
+            Log.w("cba",myList.get(1));
+            final String[] session=myList.get(1).split(";");
             final String[] sessionid=session[0].split("=");
 
 
@@ -149,11 +146,6 @@ public class HelperActivity extends AppCompatActivity {
                     Log.w("cba",mySharedPreferences.getString("sessionid","asdsa"));
                 }
             });
-<<<<<<< HEAD
-
-
-=======
->>>>>>> e6c772c61b8cee17c2452b95ea9aac28072d0df7
             Intent homeIntent=new Intent(getApplicationContext(),Homepage.class);
             startActivity(homeIntent);
         }
