@@ -24,13 +24,13 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
-public class HelperActivity extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
     String LOGIN_URL="http://10.1.124.67:8080/login/";
     public static boolean connected=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.helper_layout);
+        setContentView(R.layout.splash_screen_layout);
         SharedPreferences mySharedPreferences=getSharedPreferences("login_details",Context.MODE_PRIVATE);
         if(!mySharedPreferences.getBoolean("flag",false)){
             Intent loginIntent=new Intent(getApplicationContext(),Login.class);
@@ -65,7 +65,7 @@ public class HelperActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(HelperActivity.this,temp1+" "+temp2,Toast.LENGTH_LONG).show();
+                        Toast.makeText(SplashScreenActivity.this,temp1+" "+temp2,Toast.LENGTH_LONG).show();
                     }
                 });
                 conn.setRequestMethod("POST");
@@ -96,7 +96,7 @@ public class HelperActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(HelperActivity.this," URL error Exception",Toast.LENGTH_LONG).show();
+                        Toast.makeText(SplashScreenActivity.this," URL error Exception",Toast.LENGTH_LONG).show();
                     }
                 });
             } catch( IOException e){
@@ -104,7 +104,7 @@ public class HelperActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(HelperActivity.this,"IOException",Toast.LENGTH_LONG).show();
+                        Toast.makeText(SplashScreenActivity.this,"IOException",Toast.LENGTH_LONG).show();
                     }
                 });
             }
@@ -114,7 +114,7 @@ public class HelperActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(HelperActivity.this);
+            progressDialog = new ProgressDialog(SplashScreenActivity.this);
             progressDialog.setTitle("Connecting");
             progressDialog.setMessage("Please Wait");
             progressDialog.setCancelable(false);
