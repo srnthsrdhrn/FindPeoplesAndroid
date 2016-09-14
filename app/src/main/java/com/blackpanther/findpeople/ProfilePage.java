@@ -4,20 +4,16 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.MenuPopupWindow;
-import android.text.Layout;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -26,25 +22,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blackpanther.findpeople.profile.Profile;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class ProfilePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     ImageView profile_pic;
     ImageButton edit;
-    TextView profile_name,profile_age,profile_dob,profile_email,profile_gender;
+    TextView profile_name;
     List<String> categories_list;
     ListView categories_list_view;
 
@@ -71,10 +62,6 @@ public class ProfilePage extends AppCompatActivity
 
         profile_pic = (ImageView) findViewById(R.id.profile_pic);
         profile_name = (TextView) findViewById(R.id.name);
-        profile_age = (TextView) findViewById(R.id.age);
-        profile_dob = (TextView) findViewById(R.id.dob);
-        profile_email= (TextView) findViewById(R.id.email_id);
-        profile_gender = (TextView) findViewById(R.id.gender);
         categories_list_view = (ListView) findViewById(R.id.categories_list);
         edit = (ImageButton) findViewById(R.id.categories_edit);
         categories_list = new ArrayList<>();
