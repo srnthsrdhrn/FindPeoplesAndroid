@@ -128,7 +128,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             progressDialog.dismiss();
             Map<String,List<String>> myMap=conn.getHeaderFields();
             List<String> myList=myMap.get("Set-Cookie");
-            final String[] session=myList.get(0).split(";");
+            final String[] session=myList.get(1).split(";");
             String[] temp = session[0].split("=");
             SharedPreferences preferences = getSharedPreferences("login_details",MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();

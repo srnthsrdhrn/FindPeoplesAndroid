@@ -1,9 +1,14 @@
 package com.blackpanther.findpeople;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.MenuPopupWindow;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,16 +20,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blackpanther.findpeople.profile.Profile;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class ProfilePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -186,37 +200,53 @@ public class ProfilePage extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         if (v.getId() == R.id.fab_newTeam) {
-                            final Dialog dialog = new Dialog(ProfilePage.this);
-                            dialog.setTitle("New Team");
-                            dialog.setContentView(R.layout.activity_newteam);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ProfilePage.this);
+                            final View view = LayoutInflater.from(ProfilePage.this).inflate(R.layout.activity_newteam,null,false);
+                            builder.setView(view);
+                            builder.setTitle("New Team");
+                            builder.setPositiveButton("Create Team", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    EditText name = (EditText) view.findViewById(R.id.prjct_name);
+                                    Spinner spinner = (Spinner) view.findViewById(R.id.prjct_category);
+                                    List<String> list = new ArrayList<>();
+                                    list.add("Computer Science");
+                                    list.add("Android App Development");
+                                    list.add("Web Development");
+                                    spinner.setAdapter(new ArrayAdapter<>(ProfilePage.this,android.R.layout.simple_spinner_dropdown_item,list));
+                                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                            categorys= (String) adapterView.getItemAtPosition(i);
+
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> adapterView) {
+
+                                        }
+
+                                    }
+                                    );
+                                    spinner.setEnabled(true);
+                                    EditText description = (EditText) view.findViewById(R.id.prjct_description);
+                                    EditText numbeOfParticipants = (EditText) view.findViewById(R.id.no_of_participants);
+                                    RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radio_grp);
+                                    boolean Started= radioGroup.getCheckedRadioButtonId() == R.id.prjct_started;
+
+                                    dialogInterface.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Name: "+ name.getText()+"\nDescription: "+description.getText()+"\nCategory: "+categorys+"\nNumber of Participants: "
+                                            +numbeOfParticipants.getText()+"\n Started Project "+ Started, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            final Dialog dialog = builder.create();
                             dialog.show();
-                            final EditText edittext1 = (EditText) dialog.findViewById(R.id.editText1);
-                            final EditText edittext2 = (EditText) dialog.findViewById(R.id.editText2);
-                            final EditText edittext3 = (EditText) dialog.findViewById(R.id.editText3);
-                            final EditText edittext4 = (EditText) dialog.findViewById(R.id.editText4);
-                            final EditText edittext5 = (EditText) dialog.findViewById(R.id.editText5);
-                            Button Register = (Button) dialog.findViewById(R.id.post);
-                            Button cancel = (Button) dialog.findViewById(R.id.cancel);
-                            Register.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    String text1 = edittext1.getText().toString();
-                                    String text2 = edittext2.getText().toString();
-                                    String text3 = edittext3.getText().toString();
-                                    String text4 = edittext4.getText().toString();
-                                    String text5 = edittext5.getText().toString();
-                                    Toast.makeText(getApplicationContext(), "NOTED", Toast.LENGTH_SHORT).show();
-                                    dialog.cancel();
-                                }
-                            });
-                            cancel.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-
-                                    dialog.cancel();
-
-                                }
-                            });
 
                         }
                     }
@@ -229,7 +259,7 @@ public class ProfilePage extends AppCompatActivity
 
         });
     }
-
+String categorys="";
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -247,17 +277,13 @@ public class ProfilePage extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        switch (id) {
+            case R.id.homepage:
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+                break;
+            case R.id.profile_page:
+                onBackPressed();
+                break;
 
         }
 

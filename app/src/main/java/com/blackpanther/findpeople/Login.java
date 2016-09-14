@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class Login extends AppCompatActivity {
     Button Login,Register,Forgot_Password;
     EditText usernameet,passwordet;
-    String LOGIN_URL="http://10.1.124.67:8080/login/", FORGOT_PASSWORD_URL="";
+    String LOGIN_URL="http://54.244.177.52:8000/login/", FORGOT_PASSWORD_URL="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,5 +1,6 @@
 package com.blackpanther.findpeople;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -34,8 +35,6 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,23 +73,11 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_camera:
-                // Handle the camera action
+            case R.id.homepage:
+                onBackPressed();
                 break;
-            case R.id.nav_gallery:
-
-                break;
-            case R.id.nav_slideshow:
-
-                break;
-            case R.id.nav_manage:
-
-                break;
-            case R.id.nav_share:
-
-                break;
-            case R.id.nav_send:
-
+            case R.id.profile_page:
+                startActivity(new Intent(Homepage.this,ProfilePage.class));
                 break;
         }
 
