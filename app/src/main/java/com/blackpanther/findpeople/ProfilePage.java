@@ -1,9 +1,14 @@
 package com.blackpanther.findpeople;
 
+<<<<<<< HEAD
 import android.app.Dialog;
+=======
+import android.graphics.Bitmap;
+>>>>>>> 7cd893fcf87673e03d908d095a6f2b427fafe9c4
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+<<<<<<< HEAD
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -25,6 +31,15 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+=======
+import android.widget.ArrayAdapter;
+
+import com.blackpanther.findpeople.profile.NamePic;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+>>>>>>> 7cd893fcf87673e03d908d095a6f2b427fafe9c4
 
 public class ProfilePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,6 +67,7 @@ public class ProfilePage extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+<<<<<<< HEAD
 
 
 
@@ -229,7 +245,19 @@ public class ProfilePage extends AppCompatActivity
 
         });
     }
+=======
+        List<Object> myList=getData();
+>>>>>>> 7cd893fcf87673e03d908d095a6f2b427fafe9c4
 
+        ProfileRecyclerViewAdapter myAdapter=new ProfileRecyclerViewAdapter(getApplicationContext(),myList);
+        RecyclerView myRecycler= (RecyclerView) findViewById(R.id.recycler_view);
+        myRecycler.setAdapter(myAdapter);
+    }
+    public ArrayList<Object> getData(){
+        ArrayList<Object> myObject=new ArrayList<Object>();
+        //myObject.add(0,new NamePic("sabari",);
+        return myObject;
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -47,7 +47,11 @@
     <states>
       <state key="ProjectJDKs.UI">
         <settings>
+<<<<<<< HEAD
           <last-edited>1.7</last-edited>
+=======
+          <last-edited>1.8</last-edited>
+>>>>>>> 7cd893fcf87673e03d908d095a6f2b427fafe9c4
           <splitter-proportions>
             <option name="proportions">
               <list>

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -24,8 +25,13 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
+<<<<<<< HEAD:app/src/main/java/com/blackpanther/findpeople/SplashScreenActivity.java
 public class SplashScreenActivity extends AppCompatActivity {
     String LOGIN_URL="http://10.1.124.67:8080/login/";
+=======
+public class HelperActivity extends AppCompatActivity {
+    String LOGIN_URL="http://54.244.177.52:8000/login/";
+>>>>>>> 7cd893fcf87673e03d908d095a6f2b427fafe9c4:app/src/main/java/com/blackpanther/findpeople/HelperActivity.java
     public static boolean connected=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"dasda",Toast.LENGTH_LONG).show();
         }
         else{
+
             new LoginConnect().execute(LOGIN_URL,mySharedPreferences.getString("username","zzz"), mySharedPreferences.getString("password","zzzz"));
         }
 
@@ -62,12 +69,15 @@ public class SplashScreenActivity extends AppCompatActivity {
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
+<<<<<<< HEAD:app/src/main/java/com/blackpanther/findpeople/SplashScreenActivity.java
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(SplashScreenActivity.this,temp1+" "+temp2,Toast.LENGTH_LONG).show();
                     }
                 });
+=======
+>>>>>>> 7cd893fcf87673e03d908d095a6f2b427fafe9c4:app/src/main/java/com/blackpanther/findpeople/HelperActivity.java
                 conn.setRequestMethod("POST");
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
@@ -126,9 +136,15 @@ public class SplashScreenActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             progressDialog.dismiss();
+            connected=true;
             Map<String,List<String>> myMap=conn.getHeaderFields();
             List<String> myList=myMap.get("Set-Cookie");
-            final String[] session=myList.get(0).split(";");
+            Log.w("cba",myList.get(1));
+            final String[] session=myList.get(1).split(";");
+            final String[] sessionid=session[0].split("=");
+
+
+            Log.w("cba",sessionid[1]);
             String[] temp = session[0].split("=");
             SharedPreferences preferences = getSharedPreferences("login_details",MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
@@ -137,22 +153,20 @@ public class SplashScreenActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(),session[0],Toast.LENGTH_LONG).show();
+                    SharedPreferences mySharedPreferences=getSharedPreferences("login_details",Context.MODE_PRIVATE);
+                    SharedPreferences.Editor myEditor=mySharedPreferences.edit();
+                    myEditor.putString("sessionid",sessionid[1]);
+                    myEditor.apply();
+                    Log.w("cba",mySharedPreferences.getString("sessionid","asdsa"));
                 }
             });
-
-
-
-
-            SharedPreferences mySharedPreferences=getSharedPreferences("login_details",Context.MODE_PRIVATE);
-            SharedPreferences.Editor myEditor=mySharedPreferences.edit();
-            //myEditor.putString("")
             Intent homeIntent=new Intent(getApplicationContext(),Homepage.class);
             startActivity(homeIntent);
         }
         private String getQuery(String username,String password) throws UnsupportedEncodingException
         {
-            String result = "&" +
+
+            return "&" +
                     URLEncoder.encode("username", "UTF-8") +
                     "=" +
                     URLEncoder.encode(username, "UTF-8") +
@@ -160,8 +174,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                     URLEncoder.encode("password", "UTF-8") +
                     "=" +
                     URLEncoder.encode(password, "UTF-8");
-
-            return result;
         }
 
         @Override
