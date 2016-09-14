@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -29,12 +30,14 @@ import java.net.CookieManager;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by ubuntu on 2/9/16.
@@ -60,7 +63,8 @@ public class WallFragment extends Fragment {
             }
         };
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swiprerefreshlayout);
-
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,android.R.color.holo_red_light,android.R.color.holo_green_light,android.R.color.holo_orange_light,android.R.color.holo_purple);
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
         adapter = new WallRecyclerViewAdapter(content_list);
         Log.w("content","checkpoint");
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
@@ -139,7 +143,7 @@ public class WallFragment extends Fragment {
                 Log.w("content",title);
                 String description=post.getString("description");
                 String str_created=post.getString("created");
-                Date created =new Date(convetToMilliSeconds(str_created));
+                Date created = ConvertToMilliSeconds(str_created);
 
                 JSONArray catagories=post.getJSONArray("category");
                 List<String> catagory=new ArrayList<String>();
@@ -147,8 +151,8 @@ public class WallFragment extends Fragment {
                 for(j=0;j<catagories.length();j++){
                     catagory.add(i,catagories.getString(j));
                 }
-                Date due_date=new Date(convetToMilliSeconds(event.getString("due_date")));
-                Date event_date=new Date(convetToMilliSeconds(event.getString("event_date")));
+                Date due_date= ConvertToMilliSeconds(event.getString("due_date"));
+                Date event_date= ConvertToMilliSeconds(event.getString("event_date"));
 
                 temp_list.add(count++,new Event(title,description,created,catagory,event_date,due_date));
 
@@ -160,7 +164,7 @@ public class WallFragment extends Fragment {
                 Log.w("content",title);
                 String description=post.getString("description");
                 String str_created=post.getString("created");
-                Date created =new Date(convetToMilliSeconds(str_created));
+                Date created = ConvertToMilliSeconds(str_created);
 
                 JSONArray catagories=post.getJSONArray("category");
                 List<String> catagory=new ArrayList<String>();
@@ -182,17 +186,17 @@ public class WallFragment extends Fragment {
                 Log.w("content",title);
                 String description=post.getString("description");
                 String str_created=post.getString("created");
-                Date created =new Date(convetToMilliSeconds(str_created));
+                Date created = ConvertToMilliSeconds(str_created);
 
                 JSONArray catagories=post.getJSONArray("category");
                 List<String> catagory=new ArrayList<String>();
-                int j=0;
+                int j;
                 for(j=0;j<catagories.length();j++){
                     catagory.add(j,catagories.getJSONObject(j).getString("name"));
                 }
 
-                Date start_date=new Date(convetToMilliSeconds(project.getString("start_date")));
-                Date end_date=new Date(convetToMilliSeconds(project.getString("end_date")));
+                Date start_date= ConvertToMilliSeconds(project.getString("start_date"));
+                Date end_date= ConvertToMilliSeconds(project.getString("end_date"));
                 temp_list.add(count++,new Project(title,description,created,catagory,start_date,end_date));
 
             }
@@ -213,6 +217,16 @@ public class WallFragment extends Fragment {
                 });
             for(int j=0;j<temp_list.size();j++)
                 content_list.add(temp_list.get(j));
+            if(content_list.isEmpty()){
+                recyclerView.setVisibility(View.INVISIBLE);
+                final Snackbar snackbar=Snackbar.make(swipeRefreshLayout," No posts to show",Snackbar.LENGTH_INDEFINITE);
+                        snackbar.setAction("Follow a Category", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                             snackbar.dismiss();
+                    }
+                });
+            }
 
         }
         catch (JSONException e){
@@ -222,15 +236,18 @@ public class WallFragment extends Fragment {
 
     }
 
-    private long convetToMilliSeconds(String created) {
-        long milliseconds=0;
-        /*int year=Integer.parseInt(created.substring(0,4));
-        int month=Integer.parseInt(created.substring(5,7));
-        int date=Integer.parseInt(created.substring(8,10));
-        milliseconds+=(long) ((year-1970)*365.25*24*60*60*10);
-        milliseconds+=month*30*/
+    private Date ConvertToMilliSeconds(String created) {
+        String correct =created.replace("T","-");
+        correct = correct.substring(0,18);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd-hh:mm:ss", Locale.US);
+        Date date = new Date();
+        try {
+            date = simpleDateFormat.parse(correct);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        return milliseconds;
+        return date;
     }
 
 }
