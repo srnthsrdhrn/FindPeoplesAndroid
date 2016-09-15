@@ -1,5 +1,6 @@
 package com.blackpanther.findpeople;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -17,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.blackpanther.findpeople.Trending.TrendingFragment;
 import com.blackpanther.findpeople.Wall.WallFragment;
 
 public class Homepage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -75,23 +77,8 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_camera:
-                // Handle the camera action
-                break;
-            case R.id.nav_gallery:
-
-                break;
-            case R.id.nav_slideshow:
-
-                break;
-            case R.id.nav_manage:
-
-                break;
-            case R.id.nav_share:
-
-                break;
-            case R.id.nav_send:
-
+            case R.id.profile:
+                startActivity(new Intent(Homepage.this,ProfilePage.class));
                 break;
         }
 
