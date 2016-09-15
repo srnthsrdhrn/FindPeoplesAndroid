@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.blackpanther.findpeople.Wall.WallProjectContent;
+import com.blackpanther.findpeople.Wall.Project;
 import com.blackpanther.findpeople.profile.Following;
 import com.blackpanther.findpeople.profile.NamePic;
 import com.blackpanther.findpeople.profile.Skills;
@@ -135,10 +135,10 @@ public class ProfileRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             default:
             {
                 ProfileProjectRecyclerViewHolder hold=(ProfileProjectRecyclerViewHolder)holder;
-                final WallProjectContent content = (WallProjectContent) baseList.get(position);
-                hold.project_title.setText(content.getProject_title());
-                hold.project_category.setText(content.getProject_category());
-                hold.project_description.setText(content.getProject_brief());
+                final Project content = (Project) baseList.get(position);
+                hold.project_title.setText(content.getTitle());
+                //hold.project_category.setText(content.getProject_category());
+                hold.project_description.setText(content.getBrief());
             }
         }
 

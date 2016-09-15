@@ -24,6 +24,11 @@ import com.blackpanther.findpeople.profile.NamePic;
 import com.blackpanther.findpeople.profile.Profile;
 import com.blackpanther.findpeople.profile.Skills;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -34,36 +39,49 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by ubuntu on 2/9/16.
  */
-public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private List<Object> content_list = new ArrayList<>();
+public class WallFragment extends Fragment {
+    private ArrayList<Object> content_list = new ArrayList<Object>();
     private RecyclerView recyclerView;
     private WallRecyclerViewAdapter adapter;
-    private String WALL_URL="http://10.1.124.67:8080/homepage/wall";
     private SwipeRefreshLayout swipeRefreshLayout;
-    public WallFragment(){
+    SwipeRefreshLayout.OnRefreshListener onRefreshListener;
+
+    public WallFragment() {
 
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.wall_layout,container,false);
+        View v = inflater.inflate(R.layout.wall_layout, container, false);
+        onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //new WallConnect().execute();
+            }
+        };
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swiprerefreshlayout);
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_red_light,android.R.color.holo_orange_light,android.R.color.holo_blue_bright,android.R.color.holo_purple);
+
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_blue_bright, android.R.color.holo_purple);
         adapter = new WallRecyclerViewAdapter(content_list);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
+
+
                /*
         * Dummy Data for the Wall
         * */
-        List<String> names= new ArrayList<>();
+        /*List<String> names= new ArrayList<>();
         names.add("Srinath");
         names.add("Divya");
         names.add("Prithvi");
@@ -82,7 +100,7 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         Comments comments1 = new Comments(srinath,"Superb",likes);
         List<Comments> comments = new ArrayList<>();
         comments.add(comments1);
-        WallProjectContent wallCardViewContent = new WallProjectContent("Find People",
+        Project wallCardViewContent = new Project("Find People",
                 "The word project comes from the Latin word projectum from the Latin verb proicere, before an action which in turn comes from pro-," +
                         " which denotes precedence, something that comes before something else in time (paralleling the Greek πρό) and iacere, " +
                         "to do. The word project thus actually originally meant \"before an action\".\n" +
@@ -108,90 +126,170 @@ public class WallFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 comments);
         prepareCardData(wallCardViewContent);
         prepareCardData(broadcastContent);
-        prepareCardData(teamJoinContent);
+        prepareCardData(teamJoinContent);*/
         /*
         * Dummy Data for the Wall
         * */
+
+        adapter = new WallRecyclerViewAdapter(content_list);
+        Log.w("content", "checkpoint");
+        recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
         new WallConnect().execute();
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                onRefreshListener.onRefresh();
+            }
+        });
+
         return v;
 
     }
 
-    private void prepareCardData(Object content) {
-        content_list.add(content);
-        adapter.notifyDataSetChanged();
-    }
-    @Override
+    /*@Override
     public void onRefresh() {
         new WallConnect().execute();
-    }
+    }*/
 
-    private class WallConnect extends AsyncTask<String,Void,String> {
+    private class WallConnect extends AsyncTask<String, Void, String> {
 
-        @Override
-        protected String doInBackground(String... strings) {
-            String data = "";
+            @Override
+            protected String doInBackground(String... strings) {
+                String data = "";
                 try {
                     CookieHandler.setDefault(new CookieManager());
-                    URL url = new
-                            URL("http://10.1.124.67:8080/homepage/projects/");
-                    HttpURLConnection conn = (HttpURLConnection)
-                            url.openConnection();
+                    URL url = new URL("http://54.244.177.52:8000/following/post/0");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
-                    SharedPreferences
-                            myshare = getActivity().getSharedPreferences("login_details", Context.MODE_PRIVATE);
+                    SharedPreferences myshare = getActivity().getSharedPreferences("login_details", Context.MODE_PRIVATE);
                     String cookie = myshare.getString("sessionid", "asdsa");
                     Log.w("cba", cookie);
-                    conn.setRequestProperty("Cookie", "sessionid="
-                            + URLEncoder.encode(cookie, "UTF-8"));
+                    conn.setRequestProperty("Cookie", "sessionid=" + URLEncoder.encode(cookie, "UTF-8"));
+                    Log.w("session", cookie);
                     conn.connect();
-
-
                     InputStream ip = conn.getInputStream();
-                    BufferedReader reader = new BufferedReader(new
-                            InputStreamReader(ip));
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(ip));
                     final String temp = reader.readLine();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
-                            Toast.makeText(getContext(), temp, Toast.LENGTH_LONG).show();
+                            Log.w("hai", "hai");
+                            JSONtoList(temp);
                         }
                     });
-                    reader.close();
                 } catch (Exception e) {
-                    Log.w("abc", e);
+                    Log.w("Exception in internet", e);
+                }
+                return data;
+            }
+
+
+            @Override
+            protected void onPostExecute(String s) {
+                swipeRefreshLayout.setRefreshing(false);
+                Log.d("On Post Execute", s);
+                super.onPostExecute(s);
+            }
+        }
+
+        private void JSONtoList(String temp) {
+            Log.w("content", temp);
+            int count = 0;
+            try {
+                JSONObject wall = new JSONObject(temp);
+                JSONArray events = (JSONArray) wall.getJSONArray("event");
+                JSONArray teams = (JSONArray) wall.getJSONArray("team");
+                JSONArray projects = (JSONArray) wall.getJSONArray("project");
+                int i;
+                for (i = 0; i < events.length(); i++) {
+                    JSONObject event = events.getJSONObject(i);
+                    JSONObject post = event.getJSONObject("post");
+                    String title = post.getString("title");
+                    Log.w("content", title);
+                    String description = post.getString("description");
+                    String str_created = post.getString("created");
+                    Date created = new Date(convetToMilliSeconds(str_created));
+
+                    JSONArray catagories = post.getJSONArray("catagory");
+                    List<String> catagory = new ArrayList<String>();
+                    int j = 0;
+                    for (j = 0; j < catagories.length(); j++) {
+                        catagory.add(i, catagories.getString(j));
+                    }
+                    Date due_date = new Date(convetToMilliSeconds(event.getString("due_date")));
+                    Date event_date = new Date(convetToMilliSeconds(event.getString("event_date")));
+
+                    content_list.add(count++, new Event(title, description, created, catagory, event_date, due_date));
+                    adapter.notifyDataSetChanged();
+                }
+                for (i = 0; i < teams.length(); i++) {
+                    JSONObject team = teams.getJSONObject(i);
+                    JSONObject post = team.getJSONObject("post");
+                    String title = post.getString("title");
+                    Log.w("content", title);
+                    String description = post.getString("description");
+                    String str_created = post.getString("created");
+                    Date created = new Date(convetToMilliSeconds(str_created));
+
+                    JSONArray catagories = post.getJSONArray("catagory");
+                    List<String> catagory = new ArrayList<String>();
+                    int j = 0;
+                    for (j = 0; j < catagories.length(); j++) {
+                        catagory.add(i, catagories.getString(j));
+                    }
+                    int n_request = team.getInt("n_request");
+                    String status = team.getString("status");
+                    content_list.add(count++, new Team(title, description, created, catagory, n_request, status));
+                    adapter.notifyDataSetChanged();
 
 
                 }
-            return null;
+                for (i = 0; i < projects.length(); i++) {
+                    JSONObject project = projects.getJSONObject(i);
+                    JSONObject post = project.getJSONObject("post");
+                    String title = post.getString("title");
+                    Log.w("content", title);
+                    String description = post.getString("description");
+                    String str_created = post.getString("created");
+                    Date created = new Date(convetToMilliSeconds(str_created));
+
+                    JSONArray catagories = post.getJSONArray("catagory");
+                    List<String> catagory = new ArrayList<String>();
+                    int j = 0;
+                    for (j = 0; j < catagories.length(); j++) {
+                        catagory.add(j, catagories.getJSONObject(j).getString("name"));
+                    }
+
+                    Date start_date = new Date(convetToMilliSeconds(project.getString("start_date")));
+                    Date end_date = new Date(convetToMilliSeconds(project.getString("end_date")));
+                    content_list.add(count++, new Project(title, description, created, catagory, start_date, end_date));
+
+                    adapter.notifyDataSetChanged();
+                }
+
+            } catch (JSONException e) {
+                Log.w("error", e);
+            }
+
+
         }
-        @Override
-        protected void onPreExecute() {
 
-            super.onPreExecute();
-        }
+        private long convetToMilliSeconds(String created) {
+            long milliseconds = 0;
+        /*int year=Integer.parseInt(created.substring(0,4));
+        int month=Integer.parseInt(created.substring(5,7));
+        int date=Integer.parseInt(created.substring(8,10));
+        milliseconds+=(long) ((year-1970)*365.25*24*60*60*10);
+        milliseconds+=month*30*/
 
-        @Override
-        protected void onPostExecute(String s) {
+            return milliseconds;
 
-            Toast.makeText(getActivity(),s,Toast.LENGTH_LONG).show();
-            super.onPostExecute(s);
-        }
-        private String getQuery(String username,String password) throws UnsupportedEncodingException
-        {
-            String result = "&" +
-                    URLEncoder.encode("username", "UTF-8") +
-                    "=" +
-                    URLEncoder.encode(username, "UTF-8") +
-                    "&" +
-                    URLEncoder.encode("password", "UTF-8") +
-                    "=" +
-                    URLEncoder.encode(password, "UTF-8");
-
-            return result;
         }
 
     }
-
 }

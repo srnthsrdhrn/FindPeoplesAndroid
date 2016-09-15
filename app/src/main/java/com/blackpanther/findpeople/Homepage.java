@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.blackpanther.findpeople.Trending.TrendingFragment;
@@ -104,6 +105,8 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position){
                 case 0:
+                    Log.w("sabari","homepage");
+
                     return new WallFragment();
                 case 1:
                     return new CategoriesFragment();
