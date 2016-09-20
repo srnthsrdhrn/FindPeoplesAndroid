@@ -27,9 +27,6 @@ import java.util.Map;
 
 
 public class SplashScreenActivity extends AppCompatActivity {
-    String LOGIN_URL = "http://10.1.124.67:8080/login/";
-
-    public class HelperActivity extends AppCompatActivity {
         String LOGIN_URL = "http://54.244.177.52:8000/login/";
 
         public boolean connected = false;
@@ -37,14 +34,16 @@ public class SplashScreenActivity extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
             setContentView(R.layout.splash_screen_layout);
             SharedPreferences mySharedPreferences = getSharedPreferences("login_details", Context.MODE_PRIVATE);
             if (!mySharedPreferences.getBoolean("flag", false)) {
+                Log.w("test","hai ");
                 Intent loginIntent = new Intent(getApplicationContext(), Login.class);
                 startActivity(loginIntent);
-                Toast.makeText(getApplicationContext(), "dasda", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "dasda", Toast.LENGTH_LONG).show();
             } else {
-
+                Log.w("test","hai ");
                 new LoginConnect().execute(LOGIN_URL, mySharedPreferences.getString("username", "zzz"), mySharedPreferences.getString("password", "zzzz"));
             }
 
@@ -133,7 +132,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 connected = true;
                 Map<String, List<String>> myMap = conn.getHeaderFields();
                 List<String> myList = myMap.get("Set-Cookie");
-                Log.w("cba", myList.get(1));
                 final String[] session = myList.get(1).split(";");
                 final String[] sessionid = session[0].split("=");
 
@@ -178,5 +176,5 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         }
 
-    }
 }
+

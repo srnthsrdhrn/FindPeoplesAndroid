@@ -89,11 +89,11 @@ public class WallRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             case 0:
                 ProjectViewHolder projectViewHolder = (ProjectViewHolder)holder;
 
-                final WallProjectContent wallProjectContent = (WallProjectContent) content_list.get(position);
-                projectViewHolder.project_title.setText(wallProjectContent.getProject_title());
-                projectViewHolder.project_category.setText(wallProjectContent.getProject_category());
-                projectViewHolder.project_brief.setText(wallProjectContent.getProject_brief());
-                int a= wallProjectContent.getLikes().size();
+                final Project wallProjectContent = (Project) content_list.get(position);
+                projectViewHolder.project_title.setText(wallProjectContent.getTitle());
+                //projectViewHolder.project_category.setText(wallProjectContent.getCategory());
+                projectViewHolder.project_brief.setText(wallProjectContent.getBrief());
+                /*int a= wallProjectContent.getLikes().size();
                 if(a>1) {
                     projectViewHolder.likes.setText(a + " likes");
                 }else{
@@ -104,7 +104,7 @@ public class WallRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                     projectViewHolder.comments.setText(b+ " comments");
                 }else{
                     projectViewHolder.comments.setText(b + " comment");
-                }
+                }*/
 
 
 
@@ -125,7 +125,7 @@ public class WallRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 //broadcastViewHolder.broadcast_category.setText("Android");
                 broadcastViewHolder.broadcast_brief.setText(broadcastContent.getBrief());
 
-                 a= broadcastContent.getLikes().size();
+                 /*a= broadcastContent.getLikes().size();
                 if(a>1) {
                     broadcastViewHolder.likes.setText(a + " likes");
                 }else{
@@ -136,16 +136,16 @@ public class WallRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                     broadcastViewHolder.comments.setText(b+ " comments");
                 }else{
                     broadcastViewHolder.comments.setText(b + " comment");
-                }
+                }*/
                 break;
             case 2:
                 TeamJoinViewHolder teamJoinViewHolder = (TeamJoinViewHolder) holder;
-                TeamJoinContent teamJoinContent = (TeamJoinContent) content_list.get(position);
-                teamJoinViewHolder.project_title.setText(teamJoinContent.getProject_title());
-                teamJoinViewHolder.project_category.setText(teamJoinContent.getProject_category());
-                teamJoinViewHolder.project_brief.setText(teamJoinContent.getProject_brief());
+                Team teamJoinContent = (Team) content_list.get(position);
+                teamJoinViewHolder.project_title.setText(teamJoinContent.getTitle());
+                //teamJoinViewHolder.project_category.setText(teamJoinContent.getCategory());
+                teamJoinViewHolder.project_brief.setText(teamJoinContent.getBrief());
                 teamJoinViewHolder.likes.setText(teamJoinContent.getLikes().size()+" likes");
-                 a= teamJoinContent.getLikes().size();
+                 /*a= teamJoinContent.getLikes().size();
                 if(a>1) {
                     teamJoinViewHolder.likes.setText(a + " likes");
                 }else{
@@ -156,23 +156,10 @@ public class WallRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                     teamJoinViewHolder.comments.setText(b+ " comments");
                 }else{
                     teamJoinViewHolder.comments.setText(b + " comment");
-                }
+                }*/
 
-                broadcastViewHolder.likes.setText(broadcastContent.getN_Likes()+" likes");
-                //broadcastViewHolder.comments.setText(broadcastContent.getComments().size()+" comments");
-                break;
-            case 2:
-                TeamJoinViewHolder teamJoinViewHolder = (TeamJoinViewHolder) holder;
-                Team teamJoinContent = (Team) content_list.get(position);
-                //Log.w("wall",teamJoinContent.getTitle());
-                teamJoinViewHolder.project_title.setText(teamJoinContent.getTitle());
-                //teamJoinViewHolder.project_category.setText("Android");
-                teamJoinViewHolder.project_brief.setText(teamJoinContent.getBrief());
                 teamJoinViewHolder.likes.setText(teamJoinContent.getN_Likes()+" likes");
-                //teamJoinViewHolder.comments.setText(teamJoinContent.getComments().size()+" comments");
-                teamJoinViewHolder.members.setText(teamJoinContent.getN_request()+" members");
-                //teamJoinContent
-
+                //broadcastViewHolder.comments.setText(broadcastContent.getComments().size()+" comments");
                 break;
         }
     }

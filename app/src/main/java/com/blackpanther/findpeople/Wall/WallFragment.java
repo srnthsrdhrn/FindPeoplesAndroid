@@ -134,7 +134,6 @@ public class WallFragment extends Fragment {
         adapter = new WallRecyclerViewAdapter(content_list);
         Log.w("content", "checkpoint");
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -292,4 +291,3 @@ public class WallFragment extends Fragment {
         }
 
     }
-}

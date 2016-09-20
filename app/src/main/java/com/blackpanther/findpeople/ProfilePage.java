@@ -26,8 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProfilePage extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class ProfilePage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ImageView profile_pic;
     ImageButton edit;
     TextView profile_name,profile_age,profile_dob,profile_email,profile_gender;
@@ -231,11 +230,11 @@ public class ProfilePage extends AppCompatActivity
         });
     }
 
-        List<Object> myList=getData();
+        /*List<Object> myList=getData();
 
 
         ProfileRecyclerViewAdapter myAdapter=new ProfileRecyclerViewAdapter(getApplicationContext(),myList);
-        RecyclerView myRecycler= (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView myRecycler= (RecyclerView) findViewById(R.id.recycler_view);*/
 
 
     public ArrayList<Object> getData(){
