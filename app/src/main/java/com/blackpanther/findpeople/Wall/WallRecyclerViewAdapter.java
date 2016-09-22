@@ -115,7 +115,6 @@ public class WallRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 projectViewHolder.project_brief.setText(project.getBrief());
                 projectViewHolder.likes.setText(project.getN_Likes()+" likes");
                 //projectViewHolder.comments.setText(project.getComments().size()+" comments");
-
                 break;
             case 1:
                 BroadcastViewHolder broadcastViewHolder = (BroadcastViewHolder) holder;
@@ -144,7 +143,7 @@ public class WallRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                 teamJoinViewHolder.project_title.setText(teamJoinContent.getTitle());
                 //teamJoinViewHolder.project_category.setText(teamJoinContent.getCategory());
                 teamJoinViewHolder.project_brief.setText(teamJoinContent.getBrief());
-                teamJoinViewHolder.likes.setText(teamJoinContent.getLikes().size()+" likes");
+                //teamJoinViewHolder.likes.setText(teamJoinContent.getLikes().size()+" likes");
                  /*a= teamJoinContent.getLikes().size();
                 if(a>1) {
                     teamJoinViewHolder.likes.setText(a + " likes");

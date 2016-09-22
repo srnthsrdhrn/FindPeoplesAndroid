@@ -7,6 +7,7 @@ import java.util.List;
  * Created by ubuntu on 12/9/16.
  */
 public class Post {
+    protected
     protected String title,description;
     protected List<String> catagory;
     protected Date created;
