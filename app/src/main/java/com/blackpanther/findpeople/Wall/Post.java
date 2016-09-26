@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Post {
     protected String title,description;
-    protected List<String> catagory;
+    protected List<String> category;
     protected Date created;
     protected List<Likes> likes;
     protected List<Comments> comments;
@@ -18,7 +18,7 @@ public class Post {
         title=project_title;
         description=project_description;
         this.created=created;
-        catagory=project_category;
+        category =project_category;
 
     }
     public String getTitle() {
@@ -30,7 +30,7 @@ public class Post {
     }
 
     public List<String> getCategory() {
-        return catagory;
+        return category;
     }
 
     public String getDescription() {

@@ -1,13 +1,11 @@
 package com.blackpanther.findpeople.Wall;
 
 import com.blackpanther.findpeople.profile.Profile;
-
-
-
-
 /**
- * Created by ubuntu on 5/9/16.
+ * Created by ubuntu on 14/9/16.
  */
+
+
 public class Likes {
     Profile users;
 

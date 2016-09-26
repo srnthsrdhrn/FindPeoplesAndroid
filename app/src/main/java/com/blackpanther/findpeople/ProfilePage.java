@@ -50,19 +50,14 @@ public class ProfilePage extends AppCompatActivity implements NavigationView.OnN
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        navigationView.getMenu().findItem(R.id.profile).setVisible(false);
 
 
 
         profile_pic = (ImageView) findViewById(R.id.profile_pic);
         profile_name = (TextView) findViewById(R.id.name);
-        profile_age = (TextView) findViewById(R.id.age);
-        profile_dob = (TextView) findViewById(R.id.dob);
-        profile_email= (TextView) findViewById(R.id.email_id);
-        profile_gender = (TextView) findViewById(R.id.gender);
         categories_list_view = (ListView) findViewById(R.id.categories_list);
         edit = (ImageButton) findViewById(R.id.categories_edit);
         categories_list = new ArrayList<>();
@@ -227,18 +222,14 @@ public class ProfilePage extends AppCompatActivity implements NavigationView.OnN
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        switch (id) {
+            case R.id.homepage:
+                // Handle the camera action
+                startActivity(new Intent(ProfilePage.this,Homepage.class));
+                break;
+            case R.id.settings:
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

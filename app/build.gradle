@@ -18,7 +18,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
@@ -33,3 +32,4 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
 }
+

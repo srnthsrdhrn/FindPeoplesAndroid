@@ -13,4 +13,9 @@ When the English language initially adopted the word, it referred to a plan of s
     <string name="title_activity_profile">Profile</string>
     <string name="baseURL">baseurl</string>
     <string name="title_activity_new_project">New Project</string>
+
+    <string name="login_url">http://54.244.177.52:8000/login/</string>
+    <string name="register_url">http://54.244.177.52:8000/register/</string>
+    <string name="wall_fragment_url">http://54.244.177.52:8000/following/post/0</string>
+
 </resources>

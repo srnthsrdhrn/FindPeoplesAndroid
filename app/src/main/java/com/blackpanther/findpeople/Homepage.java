@@ -15,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.blackpanther.findpeople.Trending.TrendingFragment;
@@ -53,6 +52,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().findItem(R.id.homepage).setVisible(false);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -75,7 +75,10 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
 
         switch (id) {
             case R.id.profile:
+
                 startActivity(new Intent(Homepage.this,ProfilePage.class));
+                break;
+            case R.id.settings:
                 break;
         }
 

@@ -26,7 +26,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-
+import java.util.List;
+import java.util.Map;
 
 public class SplashScreenActivity extends AppCompatActivity{
         String baseurl;
@@ -99,7 +100,6 @@ public class SplashScreenActivity extends AppCompatActivity{
 
 
                     inputStream.close();
-
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();

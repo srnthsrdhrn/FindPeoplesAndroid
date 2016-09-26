@@ -2,29 +2,26 @@ package com.blackpanther.findpeople;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
 public class Register extends AppCompatActivity {
     String username, email,password,repassword;
-    String REGISTER_URL="http://54.244.177.52:8000/register/";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +39,7 @@ public class Register extends AppCompatActivity {
                 email= emailet.getText().toString();
                 password= passwordet.getText().toString();
                 repassword= repasswordet.getText().toString();
-                new RegisterThread().execute(REGISTER_URL,username,email,password,repassword);
+                new RegisterThread().execute(getResources().getString(R.string.register_url),username,email,password,repassword);
             }
         });
 
@@ -72,7 +69,7 @@ public class Register extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             StringBuilder s=new StringBuilder();
-            URL url=null;
+            URL url;
             try {
 
                 s.append(URLEncoder.encode("username", "UTF-8"));
@@ -101,7 +98,7 @@ public class Register extends AppCompatActivity {
                 conn.connect();
                 InputStream inputStream = conn.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                String line="";
+                String line;
                 String data=null;
                 while((line=reader.readLine())!=null){
                     data+=line;
