@@ -11,4 +11,6 @@
 When the English language initially adopted the word, it referred to a plan of something, not to the act of actually carrying this plan out. Something performed in accordance with a project became known as an "object".Every project has certain phases of development.
     </string>
     <string name="title_activity_profile">Profile</string>
+    <string name="baseURL">baseurl</string>
+    <string name="title_activity_new_project">New Project</string>
 </resources>

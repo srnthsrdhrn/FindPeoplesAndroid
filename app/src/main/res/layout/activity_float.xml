@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    tools:context="com.blackpanther.findpeople.ProfilePage">
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="175dp"
+        android:src="@drawable/ic_action_newproject"
+        android:elevation="6dp"
+        android:id="@+id/fab_newProject"
+        app:pressedTranslationZ="12dp"
+        app:backgroundTint="@color/fab3_color"
+
+        android:visibility="invisible"
+
+        android:onClick="onclick" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="120dp"
+        android:src="@drawable/ic_action_newteam"
+        android:elevation="6dp"
+        android:id="@+id/fab_newTeam"
+        app:pressedTranslationZ="12dp"
+        app:backgroundTint="@color/fab2_color"
+
+        android:visibility="invisible"
+
+        />
+
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="60dp"
+        android:src="@drawable/ic_action_newbroadcast"
+        android:elevation="6dp"
+        android:id="@+id/fab_newBroadcast"
+        app:pressedTranslationZ="12dp"
+        app:backgroundTint="@color/fab1_color"
+
+        android:visibility="invisible"
+
+        />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/ic_action_plus"
+        android:elevation="6dp"
+        android:id="@+id/fab_plus"
+        app:pressedTranslationZ="12dp"
+        />
+
+</android.support.design.widget.CoordinatorLayout>

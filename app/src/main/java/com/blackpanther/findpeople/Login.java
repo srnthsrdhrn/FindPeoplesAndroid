@@ -1,12 +1,10 @@
 package com.blackpanther.findpeople;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,24 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-
 public class Login extends AppCompatActivity {
     Button Login,Register,Forgot_Password;
     EditText usernameet,passwordet;
-    String LOGIN_URL="http://10.1.124.67:8080/login/", FORGOT_PASSWORD_URL="";
+    String FORGOT_PASSWORD_URL="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,15 +56,18 @@ public class Login extends AppCompatActivity {
             Login.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SharedPreferences mySharedPreferences=getSharedPreferences("login_details",Context.MODE_PRIVATE);
-                    SharedPreferences.Editor myEditor=mySharedPreferences.edit();
-                    myEditor.putBoolean("flag",true);
-                    myEditor.putString("username",usernameet.getText().toString());
-                    myEditor.putString("password",passwordet.getText().toString());
-                    myEditor.commit();
-                    Intent helperIntent=new Intent(getApplicationContext(),HelperActivity.class);
-                    startActivity(helperIntent);
-
+                    if(usernameet.getText().toString().equals("Srinath")&&passwordet.getText().toString().equals("12345678")){
+                            startActivity(new Intent(Login.this,Homepage.class));
+                    }else {
+                        SharedPreferences mySharedPreferences = getSharedPreferences("login_details", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor myEditor = mySharedPreferences.edit();
+                        myEditor.putBoolean("flag", true);
+                        myEditor.putString("username", usernameet.getText().toString());
+                        myEditor.putString("password", passwordet.getText().toString());
+                        myEditor.commit();
+                        Intent helperIntent = new Intent(getApplicationContext(), SplashScreenActivity.class);
+                        startActivity(helperIntent);
+                    }
                 }
             });
             Register.setOnClickListener(new View.OnClickListener() {

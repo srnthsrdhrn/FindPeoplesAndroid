@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.blackpanther.findpeople.R;
 import com.blackpanther.findpeople.profile.Following;
 import com.blackpanther.findpeople.profile.NamePic;
@@ -46,18 +45,22 @@ import java.util.List;
  * Created by ubuntu on 2/9/16.
  */
 public class WallFragment extends Fragment {
+    String baseurl;
     private ArrayList<Object> content_list = new ArrayList<Object>();
     private RecyclerView recyclerView;
     private WallRecyclerViewAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     SwipeRefreshLayout.OnRefreshListener onRefreshListener;
-    public WallFragment(){
+
+    public WallFragment() {
 
     }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.wall_layout,container,false);
+        baseurl= getResources().getString(R.string.baseURL);
+        View v = inflater.inflate(R.layout.wall_layout, container, false);
         onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -66,62 +69,16 @@ public class WallFragment extends Fragment {
         };
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swiprerefreshlayout);
 
-               /*
-        * Dummy Data for the Wall
-        * */
-        /*List<String> names= new ArrayList<>();
-        names.add("Srinath");
-        names.add("Divya");
-        names.add("Kishore");
-        List<String> skills_list = new ArrayList<>();
-        skills_list.add("Android Programming");
-        skills_list.add("PHP");
-        skills_list.add("HTML");
-        skills_list.add("Machine Learning");
-        Profile srinath = new Profile(new Following(names),new NamePic("Srinath", BitmapFactory.decodeResource(getResources(),R.mipmap.srinath_profile_pic)),new Skills(skills_list));
-        List<Profile> profiles = new ArrayList<>();
-        profiles.add(srinath);
-        List<Likes> likes = new ArrayList<>();
-        Likes likes1 = new Likes(srinath);
-        likes.add(likes1);
-        Comments comments1 = new Comments(srinath,"Superb",likes);
-        List<Comments> comments = new ArrayList<>();
-        comments.add(comments1);
-        Project wallCardViewContent = new Project("Find People",
-                "The word project comes from the Latin word projectum from the Latin verb proicere, before an action which in turn comes from pro-," +
-                        " which denotes precedence, something that comes before something else in time (paralleling the Greek πρό) and iacere, " +
-                        "to do. The word project thus actually originally meant \"before an action\".\n" +
-                        "When the English language initially adopted the word, it referred to a plan of something, " +
-                        "not to the act of actually carrying this plan out. Something performed in accordance with a project became known as an" +
-                        "object.Every project has certain phases of development.\n",
-                "Android App Development","Description"
-                ,
-                likes,
-                comments);
-        BroadcastContent broadcastContent = new BroadcastContent("Srinath",
-                "Engineer's Day celebration is to be held on KCT on Sep 15, and thus we are celebrating the occassion grandly",
-                "Engineer's Day Celebration",
-                "Engineering","Engineer's Day",
-                likes,
-                comments,
-                srinath);
-        TeamJoinContent teamJoinContent = new TeamJoinContent("FindPeoplesApp",
-                "Android App Development","This app is aimed at connecting the like minded people who are in need to work together to progress further",
-                "This is an app to connected the gifted",
-                profiles,
-                likes,
-                comments);
-        prepareCardData(wallCardViewContent);
-        prepareCardData(broadcastContent);
-        prepareCardData(teamJoinContent);*/
-        /*
-        * Dummy Data for the Wall
-        * */
-
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_blue_bright, android.R.color.holo_purple);
         adapter = new WallRecyclerViewAdapter(content_list);
-        Log.w("content","checkpoint");
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        adapter = new WallRecyclerViewAdapter(content_list);
+        Log.w("content", "checkpoint");
+        recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -138,154 +95,142 @@ public class WallFragment extends Fragment {
 
     }
 
+    /*@Override
+    public void onRefresh() {
+        new WallConnect().execute();
+    }*/
 
-    private class WallConnect extends AsyncTask<String,Void,String> {
-        @Override
-        protected String doInBackground(String... strings) {
-            String data = "";
+    private class WallConnect extends AsyncTask<String, Void, String> {
+
+            @Override
+            protected String doInBackground(String... strings) {
+                String data = "";
                 try {
                     CookieHandler.setDefault(new CookieManager());
-                    URL url = new URL("http://54.244.177.52:8000/following/post/0");
-                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    String u=baseurl+"following/posts/0";
+                    URL url = new URL(u);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                     conn.setRequestMethod("GET");
                     SharedPreferences myshare = getActivity().getSharedPreferences("login_details", Context.MODE_PRIVATE);
-                    String cookie = myshare.getString("sessionid", "asdsa");
-                    Log.w("cba", cookie);
-                    conn.setRequestProperty("Cookie", "sessionid=" + URLEncoder.encode(cookie, "UTF-8"));
-                    Log.w("session",cookie);
-                    conn.connect();
+                    String token = myshare.getString("token", "asdsa");
+                    conn.setRequestProperty("Authorization", "Token "+token);
                     InputStream ip = conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(ip));
                     final String temp = reader.readLine();
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.w("hai","hai");
+                            Log.w("hai", "hai");
                             JSONtoList(temp);
                         }
                     });
-                }catch (Exception e) {
+                } catch (Exception e) {
                     Log.w("Exception in internet", e);
                 }
-            return data;
+                return data;
+            }
+
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+                //swipeRefreshLayout.setRefreshing(false);
+
+            }
         }
 
+        private void JSONtoList(String temp) {
+            Log.w("content", temp);
+            int count = 0;
+            try {
+                JSONObject wall = new JSONObject(temp);
+                JSONArray events = (JSONArray) wall.getJSONArray("event");
+                JSONArray teams = (JSONArray) wall.getJSONArray("team");
+                JSONArray projects = (JSONArray) wall.getJSONArray("project");
+                int i;
+                for (i = 0; i < events.length(); i++) {
+                    JSONObject event = events.getJSONObject(i);
+                    JSONObject post = event.getJSONObject("post");
+                    String title = post.getString("title");
+                    Log.w("content", title);
+                    String description = post.getString("description");
+                    String str_created = post.getString("created");
+                    Date created = new Date(convetToMilliSeconds(str_created));
 
-        @Override
-        protected void onPostExecute(String s) {
-            swipeRefreshLayout.setRefreshing(false);
-            Log.d("On Post Execute", s);
-            super.onPostExecute(s);
-        }
-    }
+                    JSONArray catagories = post.getJSONArray("catagory");
+                    List<String> catagory = new ArrayList<String>();
+                    int j = 0;
+                    for (j = 0; j < catagories.length(); j++) {
+                        catagory.add(i, catagories.getString(j));
+                    }
+                    Date due_date = new Date(convetToMilliSeconds(event.getString("due_date")));
+                    Date event_date = new Date(convetToMilliSeconds(event.getString("event_date")));
 
-    private void JSONtoList(String temp) {
-        Log.w("content",temp);
-        int count=0;
-        try{
-            JSONObject wall=new JSONObject(temp);
-            JSONArray events=(JSONArray)wall.getJSONArray("event");
-            JSONArray teams=(JSONArray)wall.getJSONArray("team");
-            JSONArray projects=(JSONArray)wall.getJSONArray("project");
-            int i;
-            for(i=0;i<events.length();i++){
-                JSONObject event=events.getJSONObject(i);
-                JSONObject post=event.getJSONObject("post");
-                String title=post.getString("title");
-                Log.w("content",title);
-                String description=post.getString("description");
-                String str_created=post.getString("created");
-                Date created =new Date(convetToMilliSeconds(str_created));
-
-                JSONArray catagories=post.getJSONArray("catagory");
-                List<String> catagory=new ArrayList<String>();
-                int j=0;
-                for(j=0;j<catagories.length();j++){
-                    catagory.add(i,catagories.getString(j));
+                    content_list.add(count++, new Event(title, description, created, catagory, event_date, due_date));
+                    adapter.notifyDataSetChanged();
                 }
-                Date due_date=new Date(convetToMilliSeconds(event.getString("due_date")));
-                Date event_date=new Date(convetToMilliSeconds(event.getString("event_date")));
+                for (i = 0; i < teams.length(); i++) {
+                    JSONObject team = teams.getJSONObject(i);
+                    JSONObject post = team.getJSONObject("post");
+                    String title = post.getString("title");
+                    Log.w("content", title);
+                    String description = post.getString("description");
+                    String str_created = post.getString("created");
+                    Date created = new Date(convetToMilliSeconds(str_created));
 
-                content_list.add(count++,new Event(title,description,created,catagory,event_date,due_date));
-                adapter.notifyDataSetChanged();
-            }
-            for(i=0;i<teams.length();i++){
-                JSONObject team=teams.getJSONObject(i);
-                JSONObject post=team.getJSONObject("post");
-                String title=post.getString("title");
-                Log.w("content",title);
-                String description=post.getString("description");
-                String str_created=post.getString("created");
-                Date created =new Date(convetToMilliSeconds(str_created));
+                    JSONArray catagories = post.getJSONArray("catagory");
+                    List<String> catagory = new ArrayList<String>();
+                    int j = 0;
+                    for (j = 0; j < catagories.length(); j++) {
+                        catagory.add(i, catagories.getString(j));
+                    }
+                    int n_request = team.getInt("n_request");
+                    String status = team.getString("status");
+                    content_list.add(count++, new Team(title, description, created, catagory, n_request, status));
+                    adapter.notifyDataSetChanged();
 
-                JSONArray catagories=post.getJSONArray("catagory");
-                List<String> catagory=new ArrayList<String>();
-                int j=0;
-                for(j=0;j<catagories.length();j++){
-                    catagory.add(i,catagories.getString(j));
+
                 }
-                int n_request=team.getInt("n_request");
-                String status=team.getString("status");
-                content_list.add(count++,new Team(title,description,created,catagory,n_request,status));
-                adapter.notifyDataSetChanged();
+                for (i = 0; i < projects.length(); i++) {
+                    JSONObject project = projects.getJSONObject(i);
+                    JSONObject post = project.getJSONObject("post");
+                    String title = post.getString("title");
+                    Log.w("content", title);
+                    String description = post.getString("description");
+                    String str_created = post.getString("created");
+                    Date created = new Date(convetToMilliSeconds(str_created));
 
+                    JSONArray catagories = post.getJSONArray("catagory");
+                    List<String> catagory = new ArrayList<String>();
+                    int j = 0;
+                    for (j = 0; j < catagories.length(); j++) {
+                        catagory.add(j, catagories.getJSONObject(j).getString("name"));
+                    }
 
-            }
-            for(i=0;i<projects.length();i++){
-                JSONObject project=projects.getJSONObject(i);
-                JSONObject post=project.getJSONObject("post");
-                String title=post.getString("title");
-                Log.w("content",title);
-                String description=post.getString("description");
-                String str_created=post.getString("created");
-                Date created =new Date(convetToMilliSeconds(str_created));
+                    Date start_date = new Date(convetToMilliSeconds(project.getString("start_date")));
+                    Date end_date = new Date(convetToMilliSeconds(project.getString("end_date")));
+                    content_list.add(count++, new Project(title, description, created, catagory, start_date, end_date));
 
-                JSONArray catagories=post.getJSONArray("catagory");
-                List<String> catagory=new ArrayList<String>();
-                int j=0;
-                for(j=0;j<catagories.length();j++){
-                    catagory.add(j,catagories.getJSONObject(j).getString("name"));
+                    adapter.notifyDataSetChanged();
                 }
 
-                Date start_date=new Date(convetToMilliSeconds(project.getString("start_date")));
-                Date end_date=new Date(convetToMilliSeconds(project.getString("end_date")));
-                content_list.add(count++,new Project(title,description,created,catagory,start_date,end_date));
-
-                adapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                Log.w("error", e);
             }
+
 
         }
-        catch (JSONException e){
-            Log.w("error",e);
-        }
-        Log.w("content",Integer.toString(count));
-        int i;
-        for(i=0;i<content_list.size();i++){
-            if(content_list.get(i) instanceof Project){
-                Log.w("content",((Project)(content_list.get(i))).getTitle());
-            }
-            else if(content_list.get(i) instanceof Event){
-                Log.w("content",((Event)content_list.get(i)).getTitle());
-            }
-            else if(content_list.get(i) instanceof Team){
-                Log.w("content",((Team)(content_list.get(i))).getTitle());
-            }
-            else{
-                Log.w("content","fool");
-            }
-        }
 
-    }
-
-    private long convetToMilliSeconds(String created) {
-        long milliseconds=0;
+        private long convetToMilliSeconds(String created) {
+            long milliseconds = 0;
         /*int year=Integer.parseInt(created.substring(0,4));
         int month=Integer.parseInt(created.substring(5,7));
         int date=Integer.parseInt(created.substring(8,10));
         milliseconds+=(long) ((year-1970)*365.25*24*60*60*10);
         milliseconds+=month*30*/
 
-        return milliseconds;
-    }
+            return milliseconds;
 
-}
+        }
+
+    }

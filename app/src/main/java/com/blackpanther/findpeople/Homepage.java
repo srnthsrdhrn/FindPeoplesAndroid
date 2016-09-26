@@ -1,5 +1,6 @@
 package com.blackpanther.findpeople;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -17,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.blackpanther.findpeople.Trending.TrendingFragment;
 import com.blackpanther.findpeople.Wall.WallFragment;
 
 public class Homepage extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,8 +37,6 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +64,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.getTabAt(0).setIcon(getResources().getDrawable(R.drawable.ic_menu_gallery));
-        tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.ic_menu_manage));
-        tabLayout.getTabAt(2).setIcon(getResources().getDrawable(R.drawable.ic_menu_share));
+        tabLayout.getTabAt(1).setIcon(getResources().getDrawable(R.drawable.ic_menu_share));
 
 
     }
@@ -75,23 +74,8 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_camera:
-                // Handle the camera action
-                break;
-            case R.id.nav_gallery:
-
-                break;
-            case R.id.nav_slideshow:
-
-                break;
-            case R.id.nav_manage:
-
-                break;
-            case R.id.nav_share:
-
-                break;
-            case R.id.nav_send:
-
+            case R.id.profile:
+                startActivity(new Intent(Homepage.this,ProfilePage.class));
                 break;
         }
 
@@ -118,12 +102,8 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position){
                 case 0:
-                    Log.w("sabari","homepage");
-
                     return new WallFragment();
                 case 1:
-                    return new CategoriesFragment();
-                case 2:
                     return new TrendingFragment();
             }
             return null;
@@ -132,7 +112,7 @@ public class Homepage extends AppCompatActivity implements NavigationView.OnNavi
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
 
